@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flowwise — Smart Budgeting App</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --mint: #0D9E75; --mint-light: #E1F5EE; --mint-mid: #5DCAA5;
+  --amber: #BA7517; --amber-light: #FAEEDA;
+  --coral: #D85A30; --coral-light: #FAECE7;
+  --blue: #185FA5; --blue-light: #E6F1FB;
+  --purple: #534AB7; --purple-light: #EEEDFE;
+  --bg: #f5f5f3;
+  --surface: #ffffff;
+  --surface2: #f1efe8;
+  --border: rgba(0,0,0,0.12);
+  --border2: rgba(0,0,0,0.22);
+  --text: #1a1a1a;
+  --text2: #6b6b68;
+  --text3: #9b9b98;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1a18;
+    --surface: #242422;
+    --surface2: #2e2e2b;
+    --border: rgba(255,255,255,0.1);
+    --border2: rgba(255,255,255,0.2);
+    --text: #f0ede8;
+    --text2: #a8a59e;
+    --text3: #6e6b64;
+  }
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 32px 16px 60px;
+}
+
+.page-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.page-label {
+  font-size: 13px;
+  color: var(--text3);
+  letter-spacing: 0.3px;
+}
+
+.app-shell {
+  width: 100%;
+  max-width: 390px;
+  background: var(--surface2);
+  border-radius: 44px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+  min-height: 700px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06);
+}
+
+/* STATUS BAR */
+.status-bar {
+  background: var(--surface);
+  padding: 14px 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+}
+.status-time { font-size: 15px; font-weight: 600; color: var(--text); }
+.status-icons { display: flex; align-items: center; gap: 6px; color: var(--text); font-size: 13px; }
+
+/* TOP BAR */
+.top-bar {
+  background: var(--surface);
+  padding: 10px 20px 14px;
+  border-bottom: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+}
+.wordmark { font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: -0.5px; }
+.wordmark span { color: var(--mint); }
+.avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--mint-light); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--mint); }
+
+/* SCREENS */
+.screen { display: none; flex-direction: column; padding-bottom: 84px; }
+.screen.active { display: flex; }
+.screen.no-nav { padding-bottom: 0; }
+.content-area { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+
+/* CARDS */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 0.5px solid var(--border);
+  padding: 14px 16px;
+}
+.card-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+.section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.section-head .card-label { margin-bottom: 0; }
+.see-all { font-size: 12px; color: var(--mint); cursor: pointer; font-weight: 500; }
+
+/* ONBOARDING */
+.ob-progress { display: flex; gap: 5px; padding: 12px 20px; }
+.ob-dot { flex: 1; height: 3px; border-radius: 3px; background: var(--surface2); }
+.ob-dot.done { background: var(--mint); }
+.ob-dot.active { background: var(--mint-mid); }
+
+.ob-hero { padding: 20px 20px 0; }
+.ob-step-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.ob-title { font-size: 22px; font-weight: 600; color: var(--text); letter-spacing: -0.4px; line-height: 1.25; margin-bottom: 6px; }
+.ob-sub { font-size: 14px; color: var(--text2); line-height: 1.55; }
+.ob-illustration { font-size: 52px; text-align: center; padding: 24px 0 4px; }
+
+.name-wrap { padding: 16px 20px 0; }
+.name-wrap label { font-size: 12px; color: var(--text2); display: block; margin-bottom: 6px; }
+.text-input {
+  width: 100%; background: var(--surface2);
+  border: 0.5px solid var(--border2); border-radius: var(--radius-md);
+  padding: 12px 14px; font-size: 15px; color: var(--text);
+  font-family: inherit; outline: none;
+}
+.text-input:focus { border-color: var(--mint); box-shadow: 0 0 0 3px rgba(13,158,117,0.12); }
+
+.pay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 16px 20px 0; }
+.pay-option {
+  border: 0.5px solid var(--border); border-radius: var(--radius-md);
+  padding: 14px 12px; text-align: center; cursor: pointer;
+  background: var(--surface); transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+.pay-option.selected { border-color: var(--mint); background: var(--mint-light); }
+.pay-option .po-icon { font-size: 22px; color: var(--text3); margin-bottom: 6px; }
+.pay-option.selected .po-icon { color: var(--mint); }
+.pay-option .po-label { font-size: 13px; font-weight: 600; color: var(--text); }
+.pay-option .po-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+.goal-list { display: flex; flex-direction: column; gap: 8px; padding: 14px 20px 0; }
+.goal-option {
+  border: 0.5px solid var(--border); border-radius: var(--radius-md);
+  padding: 12px 14px; cursor: pointer; background: var(--surface);
+  display: flex; align-items: center; gap: 12px;
+  transition: border-color 0.15s, background 0.15s; user-select: none;
+}
+.goal-option.selected { border-color: var(--mint); background: var(--mint-light); }
+.goal-option .go-icon { font-size: 20px; color: var(--text3); flex-shrink: 0; }
+.goal-option.selected .go-icon { color: var(--mint); }
+.goal-option .go-label { font-size: 13px; font-weight: 600; color: var(--text); }
+.goal-option .go-sub { font-size: 11px; color: var(--text2); margin-top: 1px; }
+
+.cta-wrap { padding: 16px 20px; margin-top: auto; }
+.btn-primary {
+  width: 100%; background: var(--mint); color: white;
+  border: none; border-radius: var(--radius-md);
+  padding: 15px; font-size: 15px; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: opacity 0.15s;
+}
+.btn-primary:hover { opacity: 0.9; }
+.btn-secondary {
+  width: 100%; background: none;
+  border: 0.5px solid var(--border2); border-radius: var(--radius-md);
+  padding: 13px; font-size: 14px; color: var(--text2);
+  cursor: pointer; font-family: inherit; margin-top: 8px;
+  transition: background 0.15s;
+}
+.btn-secondary:hover { background: var(--surface2); }
+
+/* BANK CONNECT */
+.bank-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0; border-bottom: 0.5px solid var(--border);
+  cursor: pointer; transition: opacity 0.15s;
+}
+.bank-row:last-child { border-bottom: none; }
+.bank-row:hover { opacity: 0.75; }
+.bank-icon {
+  width: 42px; height: 42px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+  border: 0.5px solid var(--border); background: var(--surface);
+}
+.bank-name { font-size: 14px; color: var(--text); font-weight: 600; }
+.bank-sub { font-size: 12px; color: var(--text2); }
+.bank-arrow { margin-left: auto; font-size: 16px; color: var(--text3); }
+
+/* CONNECTING */
+.spinner {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 3px solid var(--mint-light); border-top-color: var(--mint);
+  animation: spin 0.85s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* SUCCESS */
+.success-hero { padding: 48px 24px 24px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+.success-circle { width: 68px; height: 68px; border-radius: 50%; background: var(--mint-light); display: flex; align-items: center; justify-content: center; font-size: 30px; color: var(--mint); }
+.success-title { font-size: 21px; font-weight: 600; color: var(--text); }
+.success-sub { font-size: 14px; color: var(--text2); line-height: 1.55; }
+.bank-badge { display: flex; align-items: center; gap: 8px; background: var(--mint-light); border-radius: var(--radius-md); padding: 10px 14px; }
+.bank-badge i { color: var(--mint); font-size: 16px; }
+.bank-badge span { font-size: 13px; font-weight: 600; color: #085041; }
+
+/* SAFE TO SPEND */
+.safe-hero {
+  background: var(--mint); border-radius: var(--radius-lg);
+  padding: 20px; color: white; text-align: center;
+}
+.safe-label { font-size: 11px; opacity: 0.8; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 4px; }
+.safe-amount { font-size: 44px; font-weight: 700; letter-spacing: -1.5px; line-height: 1; }
+.safe-sub { font-size: 13px; opacity: 0.75; margin-top: 6px; }
+.week-bar { margin-top: 14px; background: rgba(255,255,255,0.22); border-radius: 4px; height: 5px; overflow: hidden; }
+.week-fill { height: 100%; background: white; border-radius: 4px; }
+
+/* INCOME DETECTED */
+.income-card {
+  background: var(--blue-light); border: 0.5px solid #B5D4F4;
+  border-radius: var(--radius-lg); padding: 13px 14px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.income-cta {
+  font-size: 12px; font-weight: 600; color: var(--blue);
+  background: white; border: 0.5px solid #B5D4F4;
+  border-radius: 20px; padding: 5px 12px; cursor: pointer;
+  white-space: nowrap; font-family: inherit;
+}
+
+/* ALLOCATION */
+.alloc-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--border); }
+.alloc-row:last-child { border-bottom: none; padding-bottom: 0; }
+.alloc-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.alloc-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.alloc-name { font-size: 13px; color: var(--text); white-space: nowrap; }
+.alloc-bar-wrap { flex: 1; height: 4px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+.alloc-bar { height: 100%; border-radius: 4px; }
+.alloc-amount { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; }
+
+/* TRANSACTIONS */
+.txn-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 0.5px solid var(--border); }
+.txn-row:last-child { border-bottom: none; }
+.txn-ico { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+.txn-name { font-size: 13px; color: var(--text); }
+.txn-cat { font-size: 11px; color: var(--text2); }
+.txn-right { margin-left: auto; font-size: 13px; font-weight: 600; }
+.neg { color: var(--coral); }
+.pos { color: var(--mint); }
+
+/* NUDGE ITEMS */
+.nudge-filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
+.nudge-filters::-webkit-scrollbar { display: none; }
+.nf-btn {
+  border: 0.5px solid var(--border); border-radius: 20px;
+  padding: 5px 13px; font-size: 12px; white-space: nowrap;
+  cursor: pointer; background: var(--surface); font-family: inherit;
+  color: var(--text2); transition: all 0.15s;
+}
+.nf-btn.active { background: var(--mint-light); border-color: var(--mint-mid); color: #085041; font-weight: 600; }
+.nudge-item {
+  border-radius: var(--radius-lg); padding: 13px 15px;
+  border: 0.5px solid var(--border);
+  display: flex; gap: 12px; align-items: flex-start;
+  background: var(--surface);
+}
+.nudge-item.unread { border-left: 3px solid var(--mint); }
+.nudge-item.warning { background: var(--amber-light); border-color: #FAC775; }
+.nudge-item.warning.unread { border-left-color: var(--amber); }
+.nudge-item.alert { background: var(--coral-light); border-color: #F5C4B3; }
+.nudge-item.alert.unread { border-left-color: var(--coral); }
+.nudge-item.insight { background: var(--blue-light); border-color: #B5D4F4; }
+.nudge-ni { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.nudge-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.nudge-text { font-size: 12px; color: var(--text2); line-height: 1.55; }
+.nudge-time { font-size: 11px; color: var(--text3); margin-top: 5px; }
+.nudge-action { font-size: 12px; font-weight: 600; color: var(--mint); margin-top: 6px; cursor: pointer; display: inline-block; }
+
+/* INSIGHTS */
+.ring-wrap { display: flex; align-items: center; gap: 16px; }
+.ring-legend { display: flex; flex-direction: column; gap: 7px; flex: 1; }
+.ring-row { display: flex; align-items: center; justify-content: space-between; }
+.ring-label { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); }
+.ring-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.ring-val { font-size: 12px; font-weight: 600; color: var(--text); }
+
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.stat-card { background: var(--surface); border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 13px 14px; text-align: center; }
+.stat-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+.stat-value { font-size: 21px; font-weight: 700; letter-spacing: -0.5px; }
+.stat-sub { font-size: 11px; margin-top: 2px; }
+
+.insight-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--mint-light); color: #085041; font-size: 12px; padding: 7px 13px; border-radius: 20px; font-weight: 600; }
+
+/* PLAN */
+.slider-row { display: flex; flex-direction: column; gap: 7px; padding: 9px 0; border-bottom: 0.5px solid var(--border); }
+.slider-row:last-child { border-bottom: none; }
+.slider-top { display: flex; align-items: center; justify-content: space-between; }
+.slider-label { display: flex; align-items: center; gap: 8px; }
+.slider-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.slider-name { font-size: 13px; color: var(--text); }
+.slider-val { font-size: 13px; font-weight: 600; color: var(--text); }
+input[type=range] {
+  width: 100%; accent-color: var(--mint);
+  height: 4px; cursor: pointer;
+}
+
+.goal-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 12px 14px; display: flex; align-items: center; gap: 12px; }
+.goal-icon { font-size: 20px; color: var(--purple); flex-shrink: 0; }
+.goal-info { flex: 1; }
+.goal-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.goal-bar { height: 4px; background: var(--surface2); border-radius: 4px; margin-top: 7px; overflow: hidden; }
+.goal-fill { height: 100%; border-radius: 4px; background: var(--mint); }
+.goal-sub { font-size: 11px; color: var(--text2); margin-top: 4px; }
+.goal-pct { font-size: 13px; font-weight: 700; color: var(--mint); white-space: nowrap; }
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: var(--surface); border-top: 0.5px solid var(--border);
+  display: flex; padding: 10px 0 20px;
+}
+.nav-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  cursor: pointer; border: none; background: none; padding: 4px 0; font-family: inherit;
+  position: relative;
+}
+.nav-btn i { font-size: 22px; color: var(--text3); }
+.nav-btn span { font-size: 10px; color: var(--text3); }
+.nav-btn.active i, .nav-btn.active span { color: var(--mint); }
+.notif-badge {
+  position: absolute; top: 2px; right: 18px;
+  width: 8px; height: 8px; background: var(--coral); border-radius: 50%;
+  border: 1.5px solid var(--surface);
+}
+
+/* PAYCHEQUE CARD */
+.paycheck-card {
+  background: var(--purple-light); border-radius: var(--radius-lg);
+  padding: 16px; border: 0.5px solid #CECBF6;
+}
+.pc-label { font-size: 11px; color: #534AB7; text-transform: uppercase; letter-spacing: 0.5px; }
+.pc-amount { font-size: 30px; font-weight: 700; color: #26215C; letter-spacing: -1px; margin: 4px 0 2px; }
+.pc-sub { font-size: 12px; color: #534AB7; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <p class="page-label">flowwise · interactive prototype</p>
+
+  <div class="app-shell">
+    <!-- STATUS BAR -->
+    <div class="status-bar">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <i class="ti ti-wifi"></i>
+        <i class="ti ti-signal-3g"></i>
+        <i class="ti ti-battery-3"></i>
+      </div>
+    </div>
+
+    <!-- TOP BAR -->
+    <div class="top-bar" id="topBar">
+      <div class="wordmark">flow<span>wise</span></div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="position:relative;">
+          <i class="ti ti-bell" id="bellIcon" style="font-size:20px;color:var(--text2);cursor:pointer;" onclick="switchTo('nudges')"></i>
+          <div class="notif-badge" id="topNotifDot"></div>
+        </div>
+        <div class="avatar">JP</div>
+      </div>
+    </div>
+
+    <!-- OB1: NAME -->
+    <div class="screen active no-nav" id="screen-ob1">
+      <div class="ob-progress">
+        <div class="ob-dot active"></div><div class="ob-dot"></div>
+        <div class="ob-dot"></div><div class="ob-dot"></div>
+      </div>
+      <div class="ob-illustration">👋</div>
+      <div class="ob-hero">
+        <div class="ob-step-label">Step 1 of 4</div>
+        <div class="ob-title">Hi, what should we call you?</div>
+        <div class="ob-sub">Flowwise will use this to personalize your experience.</div>
+      </div>
+      <div class="name-wrap">
+        <label>Your first name</label>
+        <input class="text-input" type="text" placeholder="e.g. Jordan" id="nameInput" oninput="updateName(this.value)">
+      </div>
+      <div class="cta-wrap" style="padding-top:28px;">
+        <button class="btn-primary" onclick="switchTo('ob2')">Continue <i class="ti ti-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <!-- OB2: PAY FREQUENCY -->
+    <div class="screen no-nav" id="screen-ob2">
+      <div class="ob-progress">
+        <div class="ob-dot done"></div><div class="ob-dot active"></div>
+        <div class="ob-dot"></div><div class="ob-dot"></div>
+      </div>
+      <div class="ob-illustration">💰</div>
+      <div class="ob-hero">
+        <div class="ob-step-label">Step 2 of 4</div>
+        <div class="ob-title">How often do you get paid?</div>
+        <div class="ob-sub">This helps us time your budget resets and allocations correctly.</div>
+      </div>
+      <div class="pay-grid">
+        <div class="pay-option selected" id="po-biweekly" onclick="selectPay('biweekly')">
+          <div class="po-icon"><i class="ti ti-calendar-week"></i></div>
+          <div class="po-label">Bi-weekly</div>
+          <div class="po-sub">Every 2 weeks</div>
+        </div>
+        <div class="pay-option" id="po-semimonthly" onclick="selectPay('semimonthly')">
+          <div class="po-icon"><i class="ti ti-calendar-event"></i></div>
+          <div class="po-label">Semi-monthly</div>
+          <div class="po-sub">1st & 15th</div>
+        </div>
+        <div class="pay-option" id="po-weekly" onclick="selectPay('weekly')">
+          <div class="po-icon"><i class="ti ti-calendar"></i></div>
+          <div class="po-label">Weekly</div>
+          <div class="po-sub">Every week</div>
+        </div>
+        <div class="pay-option" id="po-monthly" onclick="selectPay('monthly')">
+          <div class="po-icon"><i class="ti ti-calendar-month"></i></div>
+          <div class="po-label">Monthly</div>
+          <div class="po-sub">Once a month</div>
+        </div>
+      </div>
+      <div class="cta-wrap">
+        <button class="btn-primary" onclick="switchTo('ob3')">Continue <i class="ti ti-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <!-- OB3: GOALS -->
+    <div class="screen no-nav" id="screen-ob3">
+      <div class="ob-progress">
+        <div class="ob-dot done"></div><div class="ob-dot done"></div>
+        <div class="ob-dot active"></div><div class="ob-dot"></div>
+      </div>
+      <div class="ob-illustration">🎯</div>
+      <div class="ob-hero">
+        <div class="ob-step-label">Step 3 of 4</div>
+        <div class="ob-title">What matters most right now?</div>
+        <div class="ob-sub">Pick the goals you'd like Flowwise to prioritize.</div>
+      </div>
+      <div class="goal-list">
+        <div class="goal-option" id="g-emergency" onclick="toggleGoal('emergency')">
+          <i class="ti ti-shield go-icon"></i>
+          <div><div class="go-label">Build emergency fund</div><div class="go-sub">3–6 months of expenses</div></div>
+        </div>
+        <div class="goal-option selected" id="g-trip" onclick="toggleGoal('trip')">
+          <i class="ti ti-plane go-icon"></i>
+          <div><div class="go-label">Save for a trip</div><div class="go-sub">Travel fund</div></div>
+        </div>
+        <div class="goal-option" id="g-debt" onclick="toggleGoal('debt')">
+          <i class="ti ti-receipt-off go-icon"></i>
+          <div><div class="go-label">Pay off debt faster</div><div class="go-sub">Credit cards, loans</div></div>
+        </div>
+        <div class="goal-option" id="g-home" onclick="toggleGoal('home')">
+          <i class="ti ti-home go-icon"></i>
+          <div><div class="go-label">Save for a home</div><div class="go-sub">Down payment fund</div></div>
+        </div>
+      </div>
+      <div class="cta-wrap">
+        <button class="btn-primary" onclick="switchTo('ob4')">Continue <i class="ti ti-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <!-- OB4: BANK CONNECT -->
+    <div class="screen no-nav" id="screen-ob4">
+      <div class="ob-progress">
+        <div class="ob-dot done"></div><div class="ob-dot done"></div>
+        <div class="ob-dot done"></div><div class="ob-dot active"></div>
+      </div>
+      <div class="ob-illustration">🏦</div>
+      <div class="ob-hero">
+        <div class="ob-step-label">Step 4 of 4</div>
+        <div class="ob-title">Connect your bank</div>
+        <div class="ob-sub">Flowwise reads transactions to automate your budget. Your credentials are never stored.</div>
+      </div>
+      <div class="content-area" style="padding-top:14px;">
+        <div class="card">
+          <div class="card-label">Popular banks</div>
+          <div class="bank-row" onclick="connectBank('TD Bank')">
+            <div class="bank-icon" style="background:#E6F1FB;"><i class="ti ti-building-bank" style="color:#185FA5;"></i></div>
+            <div><div class="bank-name">TD Bank</div><div class="bank-sub">Chequing · Savings · Credit</div></div>
+            <i class="ti ti-chevron-right bank-arrow"></i>
+          </div>
+          <div class="bank-row" onclick="connectBank('RBC Royal Bank')">
+            <div class="bank-icon" style="background:#FAECE7;"><i class="ti ti-building-bank" style="color:#D85A30;"></i></div>
+            <div><div class="bank-name">RBC Royal Bank</div><div class="bank-sub">Chequing · Savings · Credit</div></div>
+            <i class="ti ti-chevron-right bank-arrow"></i>
+          </div>
+          <div class="bank-row" onclick="connectBank('Scotiabank')">
+            <div class="bank-icon" style="background:#FAEEDA;"><i class="ti ti-building-bank" style="color:#BA7517;"></i></div>
+            <div><div class="bank-name">Scotiabank</div><div class="bank-sub">Chequing · Savings · Credit</div></div>
+            <i class="ti ti-chevron-right bank-arrow"></i>
+          </div>
+          <div class="bank-row" onclick="connectBank('BMO')">
+            <div class="bank-icon" style="background:#E6F1FB;"><i class="ti ti-building-bank" style="color:#185FA5;"></i></div>
+            <div><div class="bank-name">BMO</div><div class="bank-sub">Chequing · Savings · Credit</div></div>
+            <i class="ti ti-chevron-right bank-arrow"></i>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;padding:4px 0;">
+          <i class="ti ti-lock" style="font-size:13px;color:var(--mint);"></i>
+          <span style="font-size:12px;color:var(--text3);">256-bit encryption · read-only access</span>
+        </div>
+        <button class="btn-secondary" onclick="switchTo('home');finishOnboarding()">Skip for now</button>
+      </div>
+    </div>
+
+    <!-- CONNECTING -->
+    <div class="screen no-nav" id="screen-connecting">
+      <div style="padding:80px 24px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;">
+        <div class="spinner"></div>
+        <div style="font-size:16px;font-weight:600;color:var(--text);" id="connectingLabel">Connecting to TD Bank…</div>
+        <div style="font-size:13px;color:var(--text2);">Securely reading your accounts</div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <i class="ti ti-lock" style="font-size:13px;color:var(--mint);"></i>
+          <span style="font-size:12px;color:var(--text3);">256-bit encryption · read-only access</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONNECTED -->
+    <div class="screen no-nav" id="screen-connected">
+      <div class="success-hero">
+        <div class="success-circle"><i class="ti ti-check"></i></div>
+        <div class="success-title" id="successTitle">You're all set, Jordan!</div>
+        <div class="success-sub">Your accounts are connected. Flowwise detected your last paycheque and set up your first budget automatically.</div>
+        <div class="bank-badge">
+          <i class="ti ti-building-bank"></i>
+          <span id="connectedBankLabel">TD Bank connected</span>
+        </div>
+      </div>
+      <div style="padding:0 20px;">
+        <button class="btn-primary" onclick="finishOnboarding()">Go to my dashboard <i class="ti ti-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <!-- HOME -->
+    <div class="screen" id="screen-home">
+      <div class="content-area">
+        <div class="income-card">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <i class="ti ti-circle-check" style="font-size:18px;color:var(--blue);"></i>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#0C447C;">Paycheque detected: $3,240</div>
+              <div style="font-size:12px;color:#185FA5;">Auto-allocated to your buckets</div>
+            </div>
+          </div>
+          <button class="income-cta" onclick="switchTo('plan')">Review</button>
+        </div>
+        <div class="safe-hero">
+          <div class="safe-label">Safe to spend this week</div>
+          <div class="safe-amount">$214</div>
+          <div class="safe-sub">Bills, savings & goals are covered</div>
+          <div class="week-bar"><div class="week-fill" style="width:62%;"></div></div>
+          <div style="display:flex;justify-content:space-between;margin-top:5px;">
+            <span style="font-size:11px;opacity:0.7;">Monday</span>
+            <span style="font-size:11px;opacity:0.7;">$133 spent</span>
+            <span style="font-size:11px;opacity:0.7;">Sunday</span>
+          </div>
+        </div>
+        <div style="background:var(--amber-light);border:0.5px solid #FAC775;border-radius:var(--radius-lg);padding:13px 15px;display:flex;gap:12px;align-items:flex-start;">
+          <i class="ti ti-info-circle" style="font-size:18px;color:var(--amber);flex-shrink:0;margin-top:1px;"></i>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#412402;margin-bottom:2px;">Heads up on dining</div>
+            <div style="font-size:12px;color:#633806;line-height:1.55;">78% of your dining budget is gone by Wednesday. Consider cooking through the weekend.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="section-head">
+            <div class="card-label">Your buckets</div>
+            <span class="see-all" onclick="switchTo('plan')">Edit</span>
+          </div>
+          <div class="alloc-row">
+            <div class="alloc-left"><div class="alloc-dot" style="background:#0D9E75;"></div><div class="alloc-name">Bills & essentials</div><div class="alloc-bar-wrap"><div class="alloc-bar" style="width:100%;background:#0D9E75;"></div></div></div>
+            <div class="alloc-amount">$1,296</div>
+          </div>
+          <div class="alloc-row">
+            <div class="alloc-left"><div class="alloc-dot" style="background:#534AB7;"></div><div class="alloc-name">Savings</div><div class="alloc-bar-wrap"><div class="alloc-bar" style="width:62%;background:#534AB7;"></div></div></div>
+            <div class="alloc-amount">$648</div>
+          </div>
+          <div class="alloc-row">
+            <div class="alloc-left"><div class="alloc-dot" style="background:#185FA5;"></div><div class="alloc-name">Goals</div><div class="alloc-bar-wrap"><div class="alloc-bar" style="width:31%;background:#185FA5;"></div></div></div>
+            <div class="alloc-amount">$324</div>
+          </div>
+          <div class="alloc-row">
+            <div class="alloc-left"><div class="alloc-dot" style="background:#BA7517;"></div><div class="alloc-name">Spending</div><div class="alloc-bar-wrap"><div class="alloc-bar" style="width:48%;background:#BA7517;"></div></div></div>
+            <div class="alloc-amount">$972</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="section-head">
+            <div class="card-label">Recent activity</div>
+            <span class="see-all" onclick="switchTo('insights')">See all</span>
+          </div>
+          <div class="txn-row">
+            <div class="txn-ico" style="background:#FAEEDA;"><i class="ti ti-tools-kitchen-2" style="color:#BA7517;"></i></div>
+            <div><div class="txn-name">Cafe Misto</div><div class="txn-cat">Dining</div></div>
+            <div class="txn-right neg">-$14.50</div>
+          </div>
+          <div class="txn-row">
+            <div class="txn-ico" style="background:#E1F5EE;"><i class="ti ti-shopping-cart" style="color:#0D9E75;"></i></div>
+            <div><div class="txn-name">Metro Groceries</div><div class="txn-cat">Essentials</div></div>
+            <div class="txn-right neg">-$67.20</div>
+          </div>
+          <div class="txn-row">
+            <div class="txn-ico" style="background:#E6F1FB;"><i class="ti ti-device-mobile" style="color:#185FA5;"></i></div>
+            <div><div class="txn-name">Spotify</div><div class="txn-cat">Subscriptions</div></div>
+            <div class="txn-right neg">-$10.99</div>
+          </div>
+          <div class="txn-row">
+            <div class="txn-ico" style="background:#E1F5EE;"><i class="ti ti-arrow-down-circle" style="color:#0D9E75;"></i></div>
+            <div><div class="txn-name">Acme Corp Payroll</div><div class="txn-cat">Income</div></div>
+            <div class="txn-right pos">+$3,240</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSIGHTS -->
+    <div class="screen" id="screen-insights">
+      <div class="content-area">
+        <div class="card">
+          <div class="card-label">Spending this month</div>
+          <div class="ring-wrap">
+            <svg width="92" height="92" viewBox="0 0 92 92">
+              <circle cx="46" cy="46" r="36" fill="none" stroke="var(--surface2)" stroke-width="10"/>
+              <circle cx="46" cy="46" r="36" fill="none" stroke="#0D9E75" stroke-width="10" stroke-dasharray="90 136" stroke-linecap="round" stroke-dashoffset="-10" transform="rotate(-90 46 46)"/>
+              <circle cx="46" cy="46" r="36" fill="none" stroke="#534AB7" stroke-width="10" stroke-dasharray="54 172" stroke-linecap="round" stroke-dashoffset="-104" transform="rotate(-90 46 46)"/>
+              <circle cx="46" cy="46" r="36" fill="none" stroke="#BA7517" stroke-width="10" stroke-dasharray="37 189" stroke-linecap="round" stroke-dashoffset="-162" transform="rotate(-90 46 46)"/>
+              <circle cx="46" cy="46" r="36" fill="none" stroke="#185FA5" stroke-width="10" stroke-dasharray="45 181" stroke-linecap="round" stroke-dashoffset="-203" transform="rotate(-90 46 46)"/>
+              <text x="46" y="42" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text)">$1,842</text>
+              <text x="46" y="56" text-anchor="middle" font-size="10" fill="var(--text2)">spent</text>
+            </svg>
+            <div class="ring-legend">
+              <div class="ring-row"><div class="ring-label"><div class="ring-dot" style="background:#0D9E75;"></div>Essentials</div><div class="ring-val">$890</div></div>
+              <div class="ring-row"><div class="ring-label"><div class="ring-dot" style="background:#534AB7;"></div>Dining</div><div class="ring-val">$524</div></div>
+              <div class="ring-row"><div class="ring-label"><div class="ring-dot" style="background:#BA7517;"></div>Entertainment</div><div class="ring-val">$368</div></div>
+              <div class="ring-row"><div class="ring-label"><div class="ring-dot" style="background:#185FA5;"></div>Transport</div><div class="ring-val">$450</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-label">vs last month</div>
+            <div class="stat-value" style="color:var(--mint);">-$211</div>
+            <div class="stat-sub" style="color:#085041;">Spending down</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Savings rate</div>
+            <div class="stat-value" style="color:var(--purple);">22%</div>
+            <div class="stat-sub" style="color:#3C3489;">Above goal</div>
+          </div>
+        </div>
+        <div><span class="insight-pill"><i class="ti ti-trending-down" style="font-size:14px;color:var(--mint);"></i>Dining 78% of budget — 3 days left</span></div>
+        <div class="card">
+          <div class="card-label" style="margin-bottom:14px;">Weekly spend</div>
+          <div style="display:flex;align-items:flex-end;gap:7px;height:64px;">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:100%;background:#0D9E75;border-radius:3px 3px 0 0;height:38px;"></div><span style="font-size:10px;color:var(--text3);">W1</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:100%;background:#5DCAA5;border-radius:3px 3px 0 0;height:55px;"></div><span style="font-size:10px;color:var(--text3);">W2</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:100%;background:#5DCAA5;border-radius:3px 3px 0 0;height:30px;"></div><span style="font-size:10px;color:var(--text3);">W3</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:100%;background:var(--surface2);border:0.5px dashed var(--border2);border-radius:3px 3px 0 0;height:46px;"></div><span style="font-size:10px;color:var(--text3);">W4</span></div>
+          </div>
+          <div style="margin-top:8px;text-align:center;font-size:11px;color:var(--text3);">On track to finish $180 under budget</div>
+        </div>
+        <div style="background:var(--amber-light);border:0.5px solid #FAC775;border-radius:var(--radius-lg);padding:13px 15px;display:flex;gap:12px;">
+          <i class="ti ti-bulb" style="font-size:18px;color:var(--amber);flex-shrink:0;margin-top:1px;"></i>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#412402;margin-bottom:2px;">Pattern spotted</div>
+            <div style="font-size:12px;color:#633806;line-height:1.55;">Your weekends average $94 more than weekdays. A weekend spending cap could save ~$370/month.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NUDGES -->
+    <div class="screen" id="screen-nudges">
+      <div class="content-area">
+        <div class="nudge-filters">
+          <button class="nf-btn active" onclick="filterNudges('all',this)">All</button>
+          <button class="nf-btn" onclick="filterNudges('warning',this)">Warnings</button>
+          <button class="nf-btn" onclick="filterNudges('insight',this)">Insights</button>
+          <button class="nf-btn" onclick="filterNudges('alert',this)">Alerts</button>
+          <button class="nf-btn" onclick="filterNudges('tip',this)">Tips</button>
+        </div>
+        <div class="nudge-item warning unread" data-type="warning">
+          <i class="ti ti-alert-triangle nudge-ni" style="color:var(--amber);"></i>
+          <div><div class="nudge-title">Dining budget at 78%</div><div class="nudge-text">You've spent $409 of your $524 dining budget with 3 days left. Try cooking at home this weekend.</div><div class="nudge-time">Today · 9:14 AM</div></div>
+        </div>
+        <div class="nudge-item insight unread" data-type="insight">
+          <i class="ti ti-chart-line nudge-ni" style="color:var(--blue);"></i>
+          <div><div class="nudge-title">You saved $211 more than last month</div><div class="nudge-text">Your spending is trending down. Keep it up and you'll hit your Japan trip goal 2 months early.</div><div class="nudge-time">Yesterday</div><span class="nudge-action" onclick="switchTo('insights')">View insights</span></div>
+        </div>
+        <div class="nudge-item" data-type="tip">
+          <i class="ti ti-bulb nudge-ni" style="color:var(--purple);"></i>
+          <div><div class="nudge-title">Weekend spending pattern</div><div class="nudge-text">Your weekends average $94 more than weekdays. A weekend cap could save ~$370/month.</div><div class="nudge-time">May 14</div><span class="nudge-action">Set a weekend cap</span></div>
+        </div>
+        <div class="nudge-item alert" data-type="alert">
+          <i class="ti ti-credit-card nudge-ni" style="color:var(--coral);"></i>
+          <div><div class="nudge-title">New subscription detected</div><div class="nudge-text">Adobe Creative Cloud ($59.99/mo) added to your subscriptions bucket.</div><div class="nudge-time">May 13</div><span class="nudge-action">Review subscriptions</span></div>
+        </div>
+        <div class="nudge-item" data-type="tip">
+          <i class="ti ti-piggy-bank nudge-ni" style="color:var(--mint);"></i>
+          <div><div class="nudge-title">Good week to boost savings</div><div class="nudge-text">You're $84 under your spending budget this week. Want to move the surplus to your emergency fund?</div><div class="nudge-time">May 12</div><span class="nudge-action">Move $84 to savings</span></div>
+        </div>
+        <div class="nudge-item insight" data-type="insight">
+          <i class="ti ti-calendar-stats nudge-ni" style="color:var(--blue);"></i>
+          <div><div class="nudge-title">Bill coming up: Rogers $89</div><div class="nudge-text">Due in 3 days. Already reserved in your Bills bucket — nothing to do.</div><div class="nudge-time">May 11</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLAN -->
+    <div class="screen" id="screen-plan">
+      <div class="content-area">
+        <div class="paycheck-card">
+          <div class="pc-label">This paycheque</div>
+          <div class="pc-amount">$3,240</div>
+          <div class="pc-sub">Auto-detected · Fri May 16</div>
+        </div>
+        <div class="card">
+          <div class="card-label" style="margin-bottom:12px;">Allocation buckets</div>
+          <div class="slider-row">
+            <div class="slider-top"><div class="slider-label"><div class="slider-dot" style="background:#0D9E75;"></div><div class="slider-name">Bills & essentials</div></div><div class="slider-val" id="v-bills">$1,296 (40%)</div></div>
+            <input type="range" min="20" max="60" value="40" step="1" oninput="updateSlider('bills',this.value)">
+          </div>
+          <div class="slider-row">
+            <div class="slider-top"><div class="slider-label"><div class="slider-dot" style="background:#534AB7;"></div><div class="slider-name">Savings</div></div><div class="slider-val" id="v-savings">$648 (20%)</div></div>
+            <input type="range" min="5" max="40" value="20" step="1" oninput="updateSlider('savings',this.value)">
+          </div>
+          <div class="slider-row">
+            <div class="slider-top"><div class="slider-label"><div class="slider-dot" style="background:#185FA5;"></div><div class="slider-name">Goals</div></div><div class="slider-val" id="v-goals">$324 (10%)</div></div>
+            <input type="range" min="0" max="30" value="10" step="1" oninput="updateSlider('goals',this.value)">
+          </div>
+          <div class="slider-row">
+            <div class="slider-top"><div class="slider-label"><div class="slider-dot" style="background:#BA7517;"></div><div class="slider-name">Spending</div></div><div class="slider-val" id="v-spending">$972 (30%)</div></div>
+            <input type="range" min="10" max="50" value="30" step="1" oninput="updateSlider('spending',this.value)">
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-label" style="margin-bottom:10px;">Goals</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="goal-card">
+              <i class="ti ti-plane goal-icon"></i>
+              <div class="goal-info"><div class="goal-name">Japan trip</div><div class="goal-bar"><div class="goal-fill" style="width:64%;"></div></div><div class="goal-sub">$3,200 of $5,000 saved</div></div>
+              <div class="goal-pct">64%</div>
+            </div>
+            <div class="goal-card">
+              <i class="ti ti-shield goal-icon"></i>
+              <div class="goal-info"><div class="goal-name">Emergency fund</div><div class="goal-bar"><div class="goal-fill" style="width:41%;"></div></div><div class="goal-sub">$4,100 of $10,000 saved</div></div>
+              <div class="goal-pct">41%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav" id="bottomNav" style="display:none;">
+      <button class="nav-btn" id="nav-home" onclick="switchTo('home')">
+        <i class="ti ti-home"></i><span>Home</span>
+      </button>
+      <button class="nav-btn" id="nav-insights" onclick="switchTo('insights')">
+        <i class="ti ti-chart-bar"></i><span>Insights</span>
+      </button>
+      <button class="nav-btn" id="nav-nudges" onclick="switchTo('nudges')" style="position:relative;">
+        <i class="ti ti-bell"></i><span>Nudges</span>
+        <div class="notif-badge" id="navDot"></div>
+      </button>
+      <button class="nav-btn" id="nav-plan" onclick="switchTo('plan')">
+        <i class="ti ti-adjustments-horizontal"></i><span>Plan</span>
+      </button>
+    </nav>
+  </div>
+
+  <p class="page-label" style="font-size:11px;">tap the bank connection to see the animation ↑</p>
+</div>
+
+<script>
+const INCOME = 3240;
+const OB_SCREENS = ['ob1','ob2','ob3','ob4','connecting','connected'];
+let userName = 'Jordan';
+
+function switchTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+
+  const isOb = OB_SCREENS.includes(id);
+  const nav = document.getElementById('bottomNav');
+  nav.style.display = isOb ? 'none' : 'flex';
+
+  const topBar = document.getElementById('topBar');
+  if (isOb) {
+    topBar.innerHTML = '<div class="wordmark">flow<span>wise</span></div>';
+  } else {
+    const showDot = id !== 'nudges';
+    topBar.innerHTML = `<div class="wordmark">flow<span>wise</span></div><div style="display:flex;align-items:center;gap:10px;"><div style="position:relative;"><i class="ti ti-bell" style="font-size:20px;color:var(--text2);cursor:pointer;" onclick="switchTo('nudges')"></i>${showDot ? '<div class="notif-badge"></div>' : ''}</div><div class="avatar">${userName.slice(0,2).toUpperCase()}</div></div>`;
+  }
+
+  if (!isOb) {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    const nb = document.getElementById('nav-' + id);
+    if (nb) nb.classList.add('active');
+    const navDot = document.getElementById('navDot');
+    if (navDot) navDot.style.display = id === 'nudges' ? 'none' : 'block';
+  }
+}
+
+function updateName(v) {
+  userName = v.trim() || 'Jordan';
+}
+
+function selectPay(key) {
+  ['biweekly','semimonthly','weekly','monthly'].forEach(k => {
+    document.getElementById('po-' + k).classList.remove('selected');
+  });
+  document.getElementById('po-' + key).classList.add('selected');
+}
+
+function toggleGoal(key) {
+  document.getElementById('g-' + key).classList.toggle('selected');
+}
+
+function connectBank(name) {
+  document.getElementById('connectingLabel').textContent = 'Connecting to ' + name + '…';
+  switchTo('connecting');
+  setTimeout(() => {
+    document.getElementById('connectedBankLabel').textContent = name + ' connected';
+    document.getElementById('successTitle').textContent = "You're all set, " + (userName || 'Jordan') + "!";
+    switchTo('connected');
+  }, 2400);
+}
+
+function finishOnboarding() {
+  switchTo('home');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('nav-home').classList.add('active');
+}
+
+function updateSlider(key, pct) {
+  const amt = Math.round((pct / 100) * INCOME);
+  document.getElementById('v-' + key).textContent = '$' + amt.toLocaleString() + ' (' + pct + '%)';
+}
+
+function filterNudges(type, btn) {
+  document.querySelectorAll('.nf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.nudge-item').forEach(el => {
+    el.style.display = (type === 'all' || el.dataset.type === type) ? 'flex' : 'none';
+  });
+}
+</script>
+</body>
+</html>
