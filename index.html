@@ -15,7 +15,6 @@
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--off);color:var(--text);min-height:100vh;}
 
-  /* NAV */
   nav{background:var(--dark);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
   .logo{font-size:20px;font-weight:800;color:var(--white);letter-spacing:-0.5px;}
   .logo span{color:var(--bright);}
@@ -24,22 +23,24 @@
   .nav-btn{font-size:12px;color:#A7C4B5;cursor:pointer;border:none;background:none;padding:4px 8px;border-radius:4px;}
   .nav-btn:hover{background:rgba(255,255,255,0.1);}
 
-  /* AUTH SCREEN */
+  .screen{display:none;} .screen.active{display:block;}
+
+  /* AUTH */
   .auth-wrap{min-height:calc(100vh - 56px);display:flex;align-items:center;justify-content:center;padding:32px 16px;}
   .auth-card{background:var(--white);border-radius:16px;padding:40px;width:100%;max-width:420px;box-shadow:0 4px 24px rgba(0,0,0,0.08);}
   .auth-logo{font-size:28px;font-weight:900;color:var(--dark);margin-bottom:6px;}
   .auth-logo span{color:var(--bright);}
   .auth-tagline{font-size:14px;color:var(--muted);margin-bottom:32px;}
-  .auth-tabs{display:flex;gap:0;margin-bottom:24px;border-bottom:2px solid var(--border);}
+  .auth-tabs{display:flex;margin-bottom:24px;border-bottom:2px solid var(--border);}
   .auth-tab{flex:1;padding:10px;text-align:center;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.2s;}
   .auth-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
   .field-group{margin-bottom:16px;}
   .field-label{font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;display:block;}
-  input[type="text"],input[type="email"],input[type="password"],input[type="number"]{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;color:var(--text);background:var(--off);transition:border-color 0.2s;outline:none;}
+  .field-hint{font-size:12px;color:var(--muted);margin-top:4px;}
+  input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="date"]{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;color:var(--text);background:var(--off);transition:border-color 0.2s;outline:none;}
   input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(64,145,108,0.12);background:var(--white);}
   .btn-primary{width:100%;padding:14px;background:var(--accent);color:var(--white);border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px;}
   .btn-primary:hover{background:var(--dark);}
-  .btn-primary:disabled{background:var(--border);color:var(--muted);cursor:not-allowed;}
   .btn-secondary{width:100%;padding:12px;background:transparent;color:var(--muted);border:none;border-radius:10px;font-size:14px;cursor:pointer;margin-top:6px;}
   .btn-secondary:hover{color:var(--dark);}
   .divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:var(--muted);font-size:13px;}
@@ -48,12 +49,9 @@
   .btn-google:hover{border-color:var(--accent);}
   .auth-error{background:#FEF2F2;color:var(--red);border-radius:8px;padding:10px 14px;font-size:13px;margin-top:12px;display:none;}
 
-  /* SCREENS */
-  .screen{display:none;} .screen.active{display:block;}
-
   /* ONBOARDING */
   .onboard-wrap{min-height:calc(100vh - 56px);display:flex;align-items:center;justify-content:center;padding:32px 16px;}
-  .onboard-card{background:var(--white);border-radius:16px;padding:40px;width:100%;max-width:480px;box-shadow:0 4px 24px rgba(0,0,0,0.08);}
+  .onboard-card{background:var(--white);border-radius:16px;padding:40px;width:100%;max-width:500px;box-shadow:0 4px 24px rgba(0,0,0,0.08);}
   .step-bar{display:flex;gap:6px;margin-bottom:32px;}
   .step-dot{height:4px;flex:1;border-radius:2px;background:var(--border);transition:background 0.3s;}
   .step-dot.done{background:var(--bright);} .step-dot.active{background:var(--accent);}
@@ -61,7 +59,6 @@
   .step-eyebrow{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
   .step-title{font-size:24px;font-weight:800;color:var(--dark);margin-bottom:6px;line-height:1.2;}
   .step-sub{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.5;}
-  .field-hint{font-size:12px;color:var(--muted);margin-top:4px;}
   .input-prefix{position:relative;}
   .input-prefix span{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted);font-weight:600;}
   .input-prefix input{padding-left:28px;}
@@ -72,6 +69,21 @@
   .fixed-total-bar{display:flex;justify-content:space-between;align-items:center;background:var(--light);border-radius:10px;padding:12px 16px;margin-bottom:16px;}
   .fixed-total-label{font-size:13px;font-weight:600;color:var(--muted);}
   .fixed-total-amt{font-size:18px;font-weight:800;color:var(--dark);}
+
+  /* PAYDAY PROMPT */
+  .payday-prompt{background:var(--dark);border-radius:16px;padding:24px;margin-bottom:16px;color:var(--white);}
+  .payday-emoji{font-size:32px;margin-bottom:8px;}
+  .payday-title{font-size:20px;font-weight:800;margin-bottom:6px;}
+  .payday-sub{font-size:13px;color:#A7C4B5;margin-bottom:20px;line-height:1.5;}
+  .payday-input-row{display:flex;gap:10px;align-items:flex-end;}
+  .payday-input-wrap{flex:1;}
+  .payday-input-label{font-size:12px;font-weight:600;color:#A7C4B5;margin-bottom:6px;display:block;letter-spacing:1px;text-transform:uppercase;}
+  .payday-input{width:100%;padding:12px 14px 12px 28px;border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;font-size:18px;font-weight:800;color:var(--white);background:rgba(255,255,255,0.1);outline:none;}
+  .payday-input:focus{border-color:var(--bright);}
+  .payday-input::placeholder{color:rgba(255,255,255,0.3);}
+  .btn-payday{padding:12px 20px;background:var(--bright);color:var(--dark);border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;white-space:nowrap;transition:opacity 0.2s;}
+  .btn-payday:hover{opacity:0.9;}
+  .next-payday-info{margin-top:12px;font-size:12px;color:#A7C4B5;text-align:center;}
 
   /* DASHBOARD */
   .dash-wrap{max-width:480px;margin:0 auto;padding:20px 16px 90px;}
@@ -105,6 +117,7 @@
   .nudge.warn{background:#FFFBEB;border:1.5px solid #FDE68A;}
   .nudge.danger{background:#FEF2F2;border:1.5px solid #FECACA;}
   .nudge.tip{background:#F0FDF4;border:1.5px solid #BBF7D0;}
+  .nudge.payday{background:#EDE9FE;border:1.5px solid #C4B5FD;}
   .nudge-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
   .nudge-title{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:3px;}
   .nudge.danger .nudge-title{color:var(--red);}
@@ -141,6 +154,9 @@
   .bill-emoji{font-size:20px;width:28px;text-align:center;}
   .bill-name{font-size:14px;font-weight:600;color:var(--dark);}
   .bill-amt{font-size:13px;color:var(--muted);}
+  .bill-freq-badge{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:6px;}
+  .bill-freq-badge.monthly{background:#EDE9FE;color:var(--purple);}
+  .bill-freq-badge.weekly{background:#F0FDF4;color:var(--accent);}
   .bill-check-btn{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--off);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;color:var(--muted);}
   .bill-check-btn.paid{background:#F0FDF4;border-color:var(--bright);color:var(--accent);}
   .savings-card{background:linear-gradient(135deg,var(--purple) 0%,#5B21B6 100%);border-radius:16px;padding:24px;margin-bottom:16px;color:var(--white);}
@@ -183,11 +199,9 @@
   .btn-ghost{flex:1;padding:12px;border-radius:10px;border:1.5px solid var(--border);background:none;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;}
   .btn-ghost:hover{border-color:var(--accent);color:var(--dark);}
 
-  /* TOAST */
   .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:var(--white);padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;opacity:0;transition:all 0.3s;z-index:300;white-space:nowrap;pointer-events:none;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-  /* LOADING */
   .loading{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 56px);}
   .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
@@ -195,6 +209,9 @@
   .survival-msg{background:#FEF2F2;border:1.5px solid #FECACA;border-radius:12px;padding:16px;margin-bottom:16px;}
   .survival-msg h3{font-size:14px;font-weight:800;color:var(--red);margin-bottom:6px;}
   .survival-msg p{font-size:13px;color:#7F1D1D;line-height:1.5;}
+
+  .period-info{background:var(--light);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--muted);margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;}
+  .period-info strong{color:var(--dark);}
 </style>
 </head>
 <body>
@@ -269,6 +286,8 @@
         <div class="step-dot" id="dot3"></div>
         <div class="step-dot" id="dot4"></div>
       </div>
+
+      <!-- Step 1: Name -->
       <div id="step1">
         <div class="step-emoji">👋</div>
         <div class="step-eyebrow">Step 1 of 4</div>
@@ -280,14 +299,19 @@
         </div>
         <button class="btn-primary" onclick="goStep(2)">Continue →</button>
       </div>
+
+      <!-- Step 2: Income + Pay cycle -->
       <div id="step2" style="display:none">
         <div class="step-emoji">💰</div>
         <div class="step-eyebrow">Step 2 of 4</div>
-        <div class="step-title">How much do you earn?</div>
-        <div class="step-sub">Take-home pay after tax. It's okay if it changes week to week.</div>
+        <div class="step-title">Tell us about your pay</div>
+        <div class="step-sub">We'll use this to reset your plan on your actual payday — not a random Sunday.</div>
         <div class="field-group">
-          <label class="field-label">Pay amount</label>
-          <div class="input-prefix"><span>$</span><input type="number" id="inputIncome" placeholder="e.g. 800" min="0"></div>
+          <label class="field-label">Typical pay amount (take-home)</label>
+          <div class="input-prefix"><span>$</span>
+            <input type="number" id="inputIncome" placeholder="e.g. 800" min="0">
+          </div>
+          <div class="field-hint">Don't worry if it changes — you'll log your actual amount each payday.</div>
         </div>
         <div class="field-group">
           <label class="field-label">How often do you get paid?</label>
@@ -297,14 +321,21 @@
             <div class="freq-btn" onclick="selectFreq('monthly',this)">Monthly</div>
           </div>
         </div>
+        <div class="field-group">
+          <label class="field-label">When is your next payday?</label>
+          <input type="date" id="inputPayday" min="">
+          <div class="field-hint">We'll calculate all future paydays from this date.</div>
+        </div>
         <button class="btn-primary" onclick="goStep(3)">Continue →</button>
         <button class="btn-secondary" onclick="goStep(1)">← Back</button>
       </div>
+
+      <!-- Step 3: Fixed costs -->
       <div id="step3" style="display:none">
         <div class="step-emoji">🏠</div>
         <div class="step-eyebrow">Step 3 of 4</div>
         <div class="step-title">What goes out every month?</div>
-        <div class="step-sub">Fill in what applies — leave the rest at $0. We add it all up for you.</div>
+        <div class="step-sub">Fill in what applies — leave the rest at $0.</div>
         <div class="fixed-grid">
           <div><label class="field-label">🏠 Rent / Mortgage</label><div class="input-prefix"><span>$</span><input type="number" id="fc_rent" placeholder="0" min="0" oninput="updateFixedTotal()"></div></div>
           <div><label class="field-label">💡 Utilities</label><div class="input-prefix"><span>$</span><input type="number" id="fc_utilities" placeholder="0" min="0" oninput="updateFixedTotal()"></div></div>
@@ -324,21 +355,27 @@
         <button class="btn-primary" onclick="goStep(4)">Continue →</button>
         <button class="btn-secondary" onclick="goStep(2)">← Back</button>
       </div>
+
+      <!-- Step 4: Savings -->
       <div id="step4" style="display:none">
         <div class="step-emoji">🎯</div>
         <div class="step-eyebrow">Step 4 of 4</div>
         <div class="step-title">What's your savings goal?</div>
         <div class="step-sub">Enter 0 if you're just focused on getting by right now — that's okay.</div>
         <div class="field-group">
-          <label class="field-label">Weekly savings target</label>
-          <div class="input-prefix"><span>$</span><input type="number" id="inputSavings" placeholder="e.g. 50" min="0" value="0"></div>
+          <label class="field-label">Amount to save each pay period</label>
+          <div class="input-prefix"><span>$</span>
+            <input type="number" id="inputSavings" placeholder="e.g. 50" min="0" value="0">
+          </div>
         </div>
         <div class="field-group">
           <label class="field-label">Savings goal amount (optional)</label>
-          <div class="input-prefix"><span>$</span><input type="number" id="inputSavingsGoal" placeholder="e.g. 5000" min="0" value="0"></div>
+          <div class="input-prefix"><span>$</span>
+            <input type="number" id="inputSavingsGoal" placeholder="e.g. 5000" min="0" value="0">
+          </div>
           <div class="field-hint">Emergency fund, trip, down payment...</div>
         </div>
-        <button class="btn-primary" onclick="finishOnboard()">Show my weekly plan →</button>
+        <button class="btn-primary" onclick="finishOnboard()">Show my plan →</button>
         <button class="btn-secondary" onclick="goStep(3)">← Back</button>
       </div>
     </div>
@@ -350,21 +387,46 @@
   <div id="dashContent" class="dash-wrap">
     <div class="greeting">Good to see you,</div>
     <div class="dash-name" id="dashName">Maya 👋</div>
+
+    <!-- Payday prompt -->
+    <div class="payday-prompt" id="paydayPrompt" style="display:none">
+      <div class="payday-emoji">💰</div>
+      <div class="payday-title">Payday! What did you bring home?</div>
+      <div class="payday-sub">Enter your actual take-home pay and we'll calculate your plan for this pay period.</div>
+      <div class="payday-input-row">
+        <div class="payday-input-wrap">
+          <label class="payday-input-label">Amount received</label>
+          <div style="position:relative">
+            <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.6);font-weight:700;font-size:18px;">$</span>
+            <input type="number" class="payday-input" id="paydayIncome" placeholder="0" min="0">
+          </div>
+        </div>
+        <button class="btn-payday" onclick="logPayday()">Set my plan →</button>
+      </div>
+      <div class="next-payday-info" id="nextPaydayInfo"></div>
+    </div>
+
+    <!-- Period info bar -->
+    <div class="period-info" id="periodInfo" style="display:none">
+      <span>Pay period: <strong id="periodLabel">—</strong></span>
+      <span>Income logged: <strong id="periodIncome">—</strong></span>
+    </div>
+
     <div class="mode-banner" id="modeBanner">
       <div class="mode-dot"></div>
       <div><div class="mode-label" id="modeLabel">Growth Mode</div></div>
       <div class="mode-desc" id="modeDesc">You have surplus to save</div>
     </div>
     <div class="survival-msg" id="survivalMsg" style="display:none">
-      <h3>⚠️ Tight week ahead</h3>
-      <p>Your income is below your needs floor. Focus on groceries over eating out — Flowwise has calculated the minimum you need for food.</p>
+      <h3>⚠️ Tight pay period</h3>
+      <p>Your income is below your needs floor this period. Focus on groceries over eating out — Flowwise has calculated the minimum you need for food.</p>
     </div>
     <div class="spend-card">
-      <div class="spend-eyebrow">Safe to spend this week</div>
+      <div class="spend-eyebrow">Safe to spend this pay period</div>
       <div class="spend-amount" id="spendAmount">$0</div>
       <div class="spend-sub" id="spendSub">Bills, savings & goals are covered</div>
       <div class="spend-bar-track"><div class="spend-bar-fill" id="spendBar" style="width:0%"></div></div>
-      <div class="spend-bar-labels"><span>Mon</span><span id="spentLabel">$0 spent</span><span>Sun</span></div>
+      <div class="spend-bar-labels"><span id="periodStart">—</span><span id="spentLabel">$0 spent</span><span id="periodEnd">—</span></div>
       <div class="spend-actions">
         <div class="spend-action-btn" onclick="showTab('log')">+ Log spend</div>
         <div class="spend-action-btn" onclick="showTab('bills')">Bills & savings</div>
@@ -375,7 +437,7 @@
     <div id="bucketsZone"></div>
     <div class="log-wrap">
       <div class="log-title">Log a spend</div>
-      <div class="log-sub">Track what you've spent this week</div>
+      <div class="log-sub">Track what you've spent this pay period</div>
       <div class="log-row">
         <div class="field-group"><label class="field-label">What was it?</label><input type="text" id="logDesc" placeholder="e.g. Groceries"></div>
         <div class="field-group" style="max-width:110px"><label class="field-label">Amount</label><div class="input-prefix"><span>$</span><input type="number" id="logAmt" placeholder="0" min="0"></div></div>
@@ -387,27 +449,25 @@
 
   <!-- Bills tab -->
   <div id="billsContent" class="bills-wrap" style="display:none">
-    <div class="greeting">Week of <span id="weekLabel">—</span></div>
+    <div class="greeting">Pay period of <span id="weekLabel">—</span></div>
     <div class="dash-name" style="margin-bottom:20px">Bills & Savings</div>
     <div class="savings-card">
-      <div class="savings-eyebrow">Weekly Savings Target</div>
+      <div class="savings-eyebrow">Savings This Period</div>
       <div class="savings-amount" id="savingsDisplayAmt">$0</div>
-      <div class="savings-sub">Move to savings this week</div>
+      <div class="savings-sub">Move to savings this pay period</div>
       <div class="savings-progress-track"><div class="savings-progress-fill" id="savingsProgressFill" style="width:0%"></div></div>
       <div class="savings-progress-label" id="savingsProgressLabel">$0 saved total</div>
       <button class="btn-savings" id="savingsBtn" onclick="toggleSavings()">✓ Mark as transferred</button>
     </div>
     <div class="bills-section">
-      <div class="bills-section-title">Monthly Bills</div>
-      <div class="bills-section-sub">Mark each as paid when done. Resets every week.</div>
+      <div class="bills-section-title">Bills</div>
+      <div class="bills-section-sub">Mark each as paid. Monthly bills appear once a month, weekly bills every period.</div>
       <div id="billsList"></div>
     </div>
   </div>
 
-  <!-- Injected zones (recap, settings) -->
   <div id="injectedZone"></div>
 
-  <!-- Bottom Nav -->
   <div class="bottom-nav">
     <button class="bnav-btn active" id="bnav-home" onclick="showTab('home')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home
@@ -431,7 +491,7 @@
 <div class="modal-overlay" id="resetModal">
   <div class="modal">
     <div class="modal-title">Reset your budget?</div>
-    <div class="modal-sub">This will clear your budget setup. Your account stays active — you'll just go through onboarding again.</div>
+    <div class="modal-sub">This will clear your budget setup. Your account stays — you'll just go through onboarding again.</div>
     <div class="modal-actions">
       <button class="btn-ghost" onclick="closeModal()">Cancel</button>
       <button class="btn-primary" style="flex:1;margin-top:0" onclick="doReset()">Yes, reset</button>
@@ -442,56 +502,96 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ── SUPABASE ──────────────────────────────────────────────────────────────────
 const SUPABASE_URL = 'https://cepulixxiozuiwebnoki.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlcHVsaXh4aW96dWl3ZWJub2tpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyNTU4NTcsImV4cCI6MjEwMjgzMTg1N30.qCFL1MxSLmSoYaiO4t4_BYAzhM9GxwjKO-aUgWZHGfA';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ── STATE ─────────────────────────────────────────────────────────────────────
 let currentUser = null;
 let profile = null;
-let weeklyData = null;
+let periodData = null;
 let selectedFreq = 'weekly';
 let settingFreq = null;
 
-const FREQ_TO_WEEKLY = { weekly:1, biweekly:0.5, monthly:0.23077 };
 const BILL_DEFS = [
-  {key:'rent',emoji:'🏠',name:'Rent / Mortgage'},
-  {key:'utilities',emoji:'💡',name:'Utilities'},
-  {key:'phone',emoji:'📱',name:'Phone'},
-  {key:'internet',emoji:'🌐',name:'Internet'},
-  {key:'transit',emoji:'🚌',name:'Transit Pass'},
-  {key:'car',emoji:'🚗',name:'Car Payment'},
-  {key:'insurance',emoji:'🛡️',name:'Insurance'},
-  {key:'loans',emoji:'🎓',name:'Loans / Debt'},
-  {key:'subs',emoji:'📺',name:'Subscriptions'},
-  {key:'other',emoji:'📦',name:'Other'},
+  {key:'rent',emoji:'🏠',name:'Rent / Mortgage',freq:'monthly'},
+  {key:'utilities',emoji:'💡',name:'Utilities',freq:'monthly'},
+  {key:'phone',emoji:'📱',name:'Phone',freq:'monthly'},
+  {key:'internet',emoji:'🌐',name:'Internet',freq:'monthly'},
+  {key:'transit',emoji:'🚌',name:'Transit Pass',freq:'monthly'},
+  {key:'car',emoji:'🚗',name:'Car Payment',freq:'monthly'},
+  {key:'insurance',emoji:'🛡️',name:'Insurance',freq:'monthly'},
+  {key:'loans',emoji:'🎓',name:'Loans / Debt',freq:'monthly'},
+  {key:'subs',emoji:'📺',name:'Subscriptions',freq:'monthly'},
+  {key:'other',emoji:'📦',name:'Other',freq:'monthly'},
 ];
 
-function getWeekStart() {
-  const now = new Date();
-  const d = new Date(now);
-  d.setDate(now.getDate() - now.getDay());
-  d.setHours(0,0,0,0);
-  return d.toISOString().split('T')[0];
+// ── PAY CYCLE LOGIC ───────────────────────────────────────────────────────────
+function getPeriodDays(freq) {
+  if (freq === 'weekly') return 7;
+  if (freq === 'biweekly') return 14;
+  if (freq === 'monthly') return 30;
+  return 14;
+}
+
+function getCurrentPeriodStart(nextPayday, freq) {
+  // Given a future (or past) payday, calculate what the current period start is
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const payday = new Date(nextPayday + 'T00:00:00');
+  const days = getPeriodDays(freq);
+
+  // Walk backwards from nextPayday to find the most recent past payday
+  let periodStart = new Date(payday);
+  while (periodStart > today) {
+    periodStart.setDate(periodStart.getDate() - days);
+  }
+  // If we went too far back, step forward once
+  const periodEnd = new Date(periodStart);
+  periodEnd.setDate(periodEnd.getDate() + days - 1);
+  if (periodEnd < today) {
+    periodStart.setDate(periodStart.getDate() + days);
+  }
+  return periodStart.toISOString().split('T')[0];
+}
+
+function getNextPayday(nextPayday, freq) {
+  const days = getPeriodDays(freq);
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  let payday = new Date(nextPayday + 'T00:00:00');
+  // Walk forward until we find a future payday
+  while (payday <= today) {
+    payday.setDate(payday.getDate() + days);
+  }
+  return payday.toISOString().split('T')[0];
+}
+
+function isPayday(nextPayday, freq) {
+  const today = new Date().toISOString().split('T')[0];
+  const periodStart = getCurrentPeriodStart(nextPayday, freq);
+  return today === periodStart;
+}
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('en-CA', {month:'short', day:'numeric'});
 }
 
 // ── BOOT ──────────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
+  // Set min date for payday picker to today
+  const today = new Date().toISOString().split('T')[0];
+  const paydayInput = document.getElementById('inputPayday');
+  if (paydayInput) paydayInput.min = today;
+
   const { data: { session } } = await sb.auth.getSession();
-  if (session) {
-    currentUser = session.user;
-    await loadUserData();
-  } else {
-    showScreen('screenAuth');
-  }
+  if (session) { currentUser = session.user; await loadUserData(); }
+  else showScreen('screenAuth');
 
   sb.auth.onAuthStateChange(async (event, session) => {
-    if (event === 'SIGNED_IN' && session) {
-      currentUser = session.user;
-      await loadUserData();
-    } else if (event === 'SIGNED_OUT') {
-      currentUser = null; profile = null; weeklyData = null;
+    if (event === 'SIGNED_IN' && session) { currentUser = session.user; await loadUserData(); }
+    else if (event === 'SIGNED_OUT') {
+      currentUser = null; profile = null; periodData = null;
       showScreen('screenAuth');
       document.getElementById('navSignOut').style.display = 'none';
       document.getElementById('navAvatar').textContent = '?';
@@ -501,32 +601,31 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 async function loadUserData() {
   document.getElementById('navSignOut').style.display = 'block';
-
-  // Load profile
   const { data: prof } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
   profile = prof;
 
-  if (!profile || !profile.name) {
-    showScreen('screenOnboard');
-    return;
-  }
+  if (!profile || !profile.name) { showScreen('screenOnboard'); return; }
 
-  // Load or create weekly data
-  const weekStart = getWeekStart();
-  const { data: wd } = await sb.from('weekly_data').select('*').eq('user_id', currentUser.id).eq('week_start', weekStart).single();
+  // Get current period start based on their actual payday
+  const periodStart = getCurrentPeriodStart(profile.next_payday, profile.freq);
 
-  if (wd) {
-    weeklyData = wd;
+  // Load or create period data
+  const { data: pd } = await sb.from('weekly_data')
+    .select('*').eq('user_id', currentUser.id).eq('week_start', periodStart).single();
+
+  if (pd) {
+    periodData = pd;
   } else {
-    const { data: newWd } = await sb.from('weekly_data').insert({
+    const { data: newPd } = await sb.from('weekly_data').insert({
       user_id: currentUser.id,
-      week_start: weekStart,
+      week_start: periodStart,
       spent: 0,
       savings_moved: false,
       bills_paid: {},
-      log: []
+      log: [],
+      income_logged: null
     }).select().single();
-    weeklyData = newWd;
+    periodData = newPd;
   }
 
   document.getElementById('navAvatar').textContent = profile.name.charAt(0).toUpperCase();
@@ -536,9 +635,9 @@ async function loadUserData() {
 
 // ── AUTH ──────────────────────────────────────────────────────────────────────
 function switchAuthTab(tab) {
-  document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='signin')||(i===1&&tab==='signup')));
-  document.getElementById('authSignIn').style.display = tab==='signin' ? 'block' : 'none';
-  document.getElementById('authSignUp').style.display = tab==='signup' ? 'block' : 'none';
+  document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active',(i===0&&tab==='signin')||(i===1&&tab==='signup')));
+  document.getElementById('authSignIn').style.display = tab==='signin'?'block':'none';
+  document.getElementById('authSignUp').style.display = tab==='signup'?'block':'none';
   document.getElementById('authError').style.display = 'none';
 }
 
@@ -550,7 +649,7 @@ function showAuthError(msg) {
 async function signIn() {
   const email = document.getElementById('siEmail').value.trim();
   const password = document.getElementById('siPassword').value;
-  if (!email || !password) { showAuthError('Please enter your email and password.'); return; }
+  if (!email||!password) { showAuthError('Please enter your email and password.'); return; }
   const { error } = await sb.auth.signInWithPassword({ email, password });
   if (error) showAuthError(error.message);
 }
@@ -558,7 +657,7 @@ async function signIn() {
 async function signUp() {
   const email = document.getElementById('suEmail').value.trim();
   const password = document.getElementById('suPassword').value;
-  if (!email || !password) { showAuthError('Please enter your email and password.'); return; }
+  if (!email||!password) { showAuthError('Please enter your email and password.'); return; }
   if (password.length < 6) { showAuthError('Password must be at least 6 characters.'); return; }
   const { error } = await sb.auth.signUp({ email, password });
   if (error) showAuthError(error.message);
@@ -566,16 +665,11 @@ async function signUp() {
 }
 
 async function signInGoogle() {
-  const { error } = await sb.auth.signInWithOAuth({
-    provider: 'google',
-    options: { redirectTo: window.location.href }
-  });
+  const { error } = await sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: window.location.href }});
   if (error) showAuthError(error.message);
 }
 
-async function signOut() {
-  await sb.auth.signOut();
-}
+async function signOut() { await sb.auth.signOut(); }
 
 // ── ONBOARDING ────────────────────────────────────────────────────────────────
 function selectFreq(f, el) {
@@ -586,22 +680,20 @@ function selectFreq(f, el) {
 
 function updateFixedTotal() {
   const ids = ['fc_rent','fc_utilities','fc_phone','fc_internet','fc_transit','fc_car','fc_insurance','fc_loans','fc_subs','fc_other'];
-  const total = ids.reduce((s,id) => s + (parseFloat(document.getElementById(id)?.value)||0), 0);
-  document.getElementById('fixedTotalAmt').textContent = '$' + total.toFixed(0) + ' / mo';
+  const total = ids.reduce((s,id) => s+(parseFloat(document.getElementById(id)?.value)||0),0);
+  document.getElementById('fixedTotalAmt').textContent = '$'+total.toFixed(0)+' / mo';
 }
 
 function goStep(n) {
-  if (n===2) {
-    const v = document.getElementById('inputName').value.trim();
-    if (!v) { shake('inputName'); return; }
-  }
+  if (n===2) { const v=document.getElementById('inputName').value.trim(); if(!v){shake('inputName');return;} }
   if (n===3) {
-    const v = parseFloat(document.getElementById('inputIncome').value);
-    if (!v||v<=0) { shake('inputIncome'); return; }
+    const v=parseFloat(document.getElementById('inputIncome').value);
+    if(!v||v<=0){shake('inputIncome');return;}
+    if(!document.getElementById('inputPayday').value){shake('inputPayday');return;}
   }
-  for (let i=1;i<=4;i++) {
-    document.getElementById('step'+i).style.display = i===n?'block':'none';
-    document.getElementById('dot'+i).className = 'step-dot'+(i<n?' done':i===n?' active':'');
+  for(let i=1;i<=4;i++){
+    document.getElementById('step'+i).style.display=i===n?'block':'none';
+    document.getElementById('dot'+i).className='step-dot'+(i<n?' done':i===n?' active':'');
   }
 }
 
@@ -610,6 +702,7 @@ async function finishOnboard() {
   const income = parseFloat(document.getElementById('inputIncome').value)||0;
   const savings = parseFloat(document.getElementById('inputSavings').value)||0;
   const savingsGoal = parseFloat(document.getElementById('inputSavingsGoal').value)||0;
+  const nextPayday = document.getElementById('inputPayday').value;
   const ids = ['fc_rent','fc_utilities','fc_phone','fc_internet','fc_transit','fc_car','fc_insurance','fc_loans','fc_subs','fc_other'];
   const breakdown = {};
   let totalFixed = 0;
@@ -622,8 +715,9 @@ async function finishOnboard() {
   const profileData = {
     id: currentUser.id,
     name, income, freq: selectedFreq,
+    next_payday: nextPayday,
     rent: breakdown.rent||0,
-    bills: totalFixed - (breakdown.rent||0),
+    bills: totalFixed-(breakdown.rent||0),
     savings, savings_goal: savingsGoal,
     fixed_breakdown: breakdown,
     total_saved_ever: 0
@@ -631,41 +725,88 @@ async function finishOnboard() {
 
   const { error } = await sb.from('profiles').upsert(profileData);
   if (error) { showToast('Error saving — try again'); return; }
-
   profile = profileData;
   await loadUserData();
 }
 
+// ── PAYDAY INCOME LOGGING ─────────────────────────────────────────────────────
+async function logPayday() {
+  const amt = parseFloat(document.getElementById('paydayIncome').value);
+  if (!amt||amt<=0) { shake('paydayIncome'); return; }
+
+  const { error } = await sb.from('weekly_data').update({ income_logged: amt }).eq('id', periodData.id);
+  if (error) { showToast('Error — try again'); return; }
+
+  periodData.income_logged = amt;
+  document.getElementById('paydayPrompt').style.display = 'none';
+  showToast('Plan updated for this pay period ✓');
+  renderDash();
+}
+
 // ── CALC ──────────────────────────────────────────────────────────────────────
 function calcPlan() {
-  if (!profile) return { weeklyInc:0, fixedWeek:0, safeToSpend:0, savingsWk:0, mode:'stable' };
-  const mult = FREQ_TO_WEEKLY[profile.freq]||1;
-  const weeklyInc = profile.income * mult;
-  const fixedWeek = ((profile.rent||0) + (profile.bills||0)) / 4.33;
-  const needsFloor = fixedWeek + 60;
-  const savingsWk = profile.savings||0;
-  const flexible = weeklyInc - fixedWeek - savingsWk;
+  if (!profile) return { income:0, fixedPer:0, safeToSpend:0, savingsPer:0, mode:'stable' };
+
+  // Use logged income if available, otherwise use profile default
+  const income = periodData?.income_logged || profile.income;
+  const totalMonthly = (profile.rent||0)+(profile.bills||0);
+  const periodsPerMonth = 30 / getPeriodDays(profile.freq);
+  const fixedPer = totalMonthly / periodsPerMonth;
+  const needsFloor = fixedPer + (getPeriodDays(profile.freq) * 8); // ~$8/day food minimum
+  const savingsPer = profile.savings||0;
+  const flexible = income - fixedPer - savingsPer;
+
   let mode;
-  if (weeklyInc < needsFloor) mode='survival';
-  else if (weeklyInc < needsFloor+100) mode='stable';
+  if (income < needsFloor) mode='survival';
+  else if (income < needsFloor+100) mode='stable';
   else mode='growth';
-  const safeToSpend = mode==='survival' ? Math.max(0,weeklyInc-fixedWeek) : Math.max(0,flexible);
-  return { weeklyInc, fixedWeek, needsFloor, savingsWk, safeToSpend, mode };
+
+  const safeToSpend = mode==='survival' ? Math.max(0,income-fixedPer) : Math.max(0,flexible);
+  return { income, fixedPer, needsFloor, savingsPer, safeToSpend, mode };
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────────────────────
 function renderDash() {
-  if (!profile || !weeklyData) return;
+  if (!profile||!periodData) return;
   const p = calcPlan();
-  const spent = weeklyData.spent||0;
+  const spent = periodData.spent||0;
+  const periodStart = getCurrentPeriodStart(profile.next_payday, profile.freq);
+  const days = getPeriodDays(profile.freq);
+  const periodEndDate = new Date(periodStart+'T00:00:00');
+  periodEndDate.setDate(periodEndDate.getDate()+days-1);
+  const periodEndStr = periodEndDate.toISOString().split('T')[0];
 
-  document.getElementById('dashName').textContent = profile.name + ' 👋';
+  document.getElementById('dashName').textContent = profile.name+' 👋';
+
+  // Show payday prompt if it's payday and income not logged yet
+  const todayIsPayday = isPayday(profile.next_payday, profile.freq);
+  const paydayPrompt = document.getElementById('paydayPrompt');
+  if (todayIsPayday && !periodData.income_logged) {
+    paydayPrompt.style.display = 'block';
+    const nextNext = getNextPayday(profile.next_payday, profile.freq);
+    document.getElementById('nextPaydayInfo').textContent = 'Next payday: '+formatDate(nextNext);
+  } else {
+    paydayPrompt.style.display = 'none';
+  }
+
+  // Period info bar
+  const periodInfo = document.getElementById('periodInfo');
+  if (periodData.income_logged) {
+    periodInfo.style.display = 'flex';
+    document.getElementById('periodLabel').textContent = formatDate(periodStart)+' – '+formatDate(periodEndStr);
+    document.getElementById('periodIncome').textContent = '$'+periodData.income_logged.toFixed(0)+' logged';
+  } else {
+    periodInfo.style.display = 'none';
+  }
+
+  // Mode
   const banner = document.getElementById('modeBanner');
   banner.className = 'mode-banner '+p.mode;
   document.getElementById('modeLabel').textContent = p.mode==='survival'?'Survival Mode':p.mode==='stable'?'Stable Mode':'Growth Mode';
   document.getElementById('modeDesc').textContent = p.mode==='survival'?'Focus on essentials':p.mode==='stable'?"You're covered, stay steady":'You have surplus to save';
   document.getElementById('survivalMsg').style.display = p.mode==='survival'?'block':'none';
 
+  // Spend card
   const safe = Math.max(0,p.safeToSpend);
   document.getElementById('spendAmount').textContent = '$'+Math.round(safe);
   document.getElementById('spendSub').textContent = p.mode==='survival'?'Essentials first — groceries over dining out':'Bills, savings & goals are covered';
@@ -674,45 +815,52 @@ function renderDash() {
   bar.style.width = pct+'%';
   bar.className = 'spend-bar-fill'+(pct>90?' over':pct>70?' warn':'');
   document.getElementById('spentLabel').textContent = '$'+spent.toFixed(0)+' spent';
+  document.getElementById('periodStart').textContent = formatDate(periodStart);
+  document.getElementById('periodEnd').textContent = formatDate(periodEndStr);
 
-  renderNudges(p, pct);
+  renderNudges(p, pct, todayIsPayday);
   renderBuckets(p, spent);
   renderLog();
 }
 
-function renderNudges(p, pct) {
+function renderNudges(p, pct, todayIsPayday) {
   const zone = document.getElementById('nudgeZone');
   const nudges = [];
-  const spent = weeklyData?.spent||0;
-  if (pct>90&&spent>0) nudges.push({type:'danger',icon:'🚨',title:'Over budget warning',body:"You've used "+Math.round(pct)+"% of this week's plan. Hold off on non-essentials."});
-  else if (pct>70) nudges.push({type:'warn',icon:'⚠️',title:'Heads up on spending',body:"You've used "+Math.round(pct)+"% of your weekly plan. Watch dining through the weekend."});
-  if (p.mode==='survival') nudges.push({type:'danger',icon:'🛒',title:'Grocery mode activated',body:'No eating out this week. Rice, eggs, vegetables, and legumes stretch furthest.'});
-  if (p.mode==='growth'&&p.savingsWk>0&&!weeklyData?.savings_moved) nudges.push({type:'tip',icon:'✨',title:'Growth Mode — remember to save',body:'Move $'+Math.round(p.savingsWk)+' to savings this week. Head to Bills & Savings.'});
-  if (weeklyData?.savings_moved) nudges.push({type:'tip',icon:'💜',title:'Savings moved!',body:'$'+Math.round(p.savingsWk)+' transferred this week. Keep it up.'});
-  if (nudges.length===0&&spent===0) nudges.push({type:'tip',icon:'👆',title:'Start logging your spends',body:'Track what you spend and Flowwise will warn you before you go over budget.'});
+  const spent = periodData?.spent||0;
+
+  if (todayIsPayday && periodData?.income_logged) {
+    nudges.push({type:'payday',icon:'💰',title:'New pay period started',body:'Your plan is set for this period. You have $'+Math.round(p.safeToSpend)+' safe to spend.'});
+  }
+  if (pct>90&&spent>0) nudges.push({type:'danger',icon:'🚨',title:'Over budget warning',body:"You've used "+Math.round(pct)+"% of this period's plan."});
+  else if (pct>70) nudges.push({type:'warn',icon:'⚠️',title:'Heads up on spending',body:"You've used "+Math.round(pct)+"% of your plan. Watch dining through the rest of the period."});
+  if (p.mode==='survival') nudges.push({type:'danger',icon:'🛒',title:'Grocery mode activated',body:'No eating out this period. Rice, eggs, vegetables stretch furthest.'});
+  if (p.mode==='growth'&&p.savingsPer>0&&!periodData?.savings_moved) nudges.push({type:'tip',icon:'✨',title:'Growth Mode — remember to save',body:'Move $'+Math.round(p.savingsPer)+' to savings this period.'});
+  if (periodData?.savings_moved) nudges.push({type:'tip',icon:'💜',title:'Savings moved!',body:'$'+Math.round(p.savingsPer)+' transferred this period. Keep it up.'});
+  if (nudges.length===0&&spent===0&&!todayIsPayday) nudges.push({type:'tip',icon:'👆',title:'Start logging your spends',body:'Track what you spend and Flowwise will warn you before you go over.'});
+
   zone.innerHTML = nudges.map(n=>`<div class="nudge ${n.type}"><div class="nudge-icon">${n.icon}</div><div><div class="nudge-title">${n.title}</div><div class="nudge-body">${n.body}</div></div></div>`).join('');
 }
 
 function renderBuckets(p, spent) {
   const zone = document.getElementById('bucketsZone');
-  const bp = weeklyData?.bills_paid||{};
-  const activeBills = BILL_DEFS.filter(b=>(profile?.fixed_breakdown||{})[b.key]>0);
+  const bp = periodData?.bills_paid||{};
+  const bd = profile?.fixed_breakdown||{};
+  const activeBills = BILL_DEFS.filter(b=>bd[b.key]>0);
   const paidCount = activeBills.filter(b=>bp[b.key]).length;
   const billsFill = activeBills.length>0?Math.round((paidCount/activeBills.length)*100):0;
-  const savingsFill = weeklyData?.savings_moved?100:0;
   const safe = Math.round(Math.max(0,p.safeToSpend));
   const buckets = [
-    {name:'Bills & Essentials',alloc:Math.round(p.fixedWeek),fill:billsFill,color:'#40916C',label:paidCount+'/'+activeBills.length+' paid'},
-    {name:'Savings',alloc:Math.round(p.savingsWk),fill:savingsFill,color:'#7C3AED',label:weeklyData?.savings_moved?'Transferred ✓':'Not yet moved'},
+    {name:'Bills & Essentials',alloc:Math.round(p.fixedPer),fill:billsFill,color:'#40916C',label:paidCount+'/'+activeBills.length+' paid'},
+    {name:'Savings',alloc:Math.round(p.savingsPer),fill:periodData?.savings_moved?100:0,color:'#7C3AED',label:periodData?.savings_moved?'Transferred ✓':'Not yet moved'},
     {name:'Spending',alloc:safe,fill:safe>0?Math.min(100,(spent/safe)*100):0,color:'#D4A017',label:'$'+spent.toFixed(0)+' of $'+safe},
   ];
-  zone.innerHTML = buckets.map(b=>`<div class="bucket-card"><div class="bucket-header"><div class="bucket-name">${b.name}</div><div class="bucket-amounts"><strong>${b.label}</strong> / $${b.alloc}/wk</div></div><div class="bucket-track"><div class="bucket-fill" style="width:${b.fill}%;background:${b.color}"></div></div></div>`).join('');
+  zone.innerHTML = buckets.map(b=>`<div class="bucket-card"><div class="bucket-header"><div class="bucket-name">${b.name}</div><div class="bucket-amounts"><strong>${b.label}</strong> / $${b.alloc}</div></div><div class="bucket-track"><div class="bucket-fill" style="width:${b.fill}%;background:${b.color}"></div></div></div>`).join('');
 }
 
 function renderLog() {
   const zone = document.getElementById('logHistory');
-  const log = weeklyData?.log||[];
-  if (!log.length) { zone.innerHTML='<div class="log-empty">No spends logged yet this week</div>'; return; }
+  const log = periodData?.log||[];
+  if (!log.length) { zone.innerHTML='<div class="log-empty">No spends logged yet this period</div>'; return; }
   zone.innerHTML = [...log].reverse().slice(0,8).map(l=>`<div class="log-item"><div>${l.desc}</div><div class="log-item-amt">-$${parseFloat(l.amt).toFixed(2)}</div></div>`).join('');
 }
 
@@ -721,15 +869,11 @@ async function logSpend() {
   const desc = document.getElementById('logDesc').value.trim()||'Spend';
   const amt = parseFloat(document.getElementById('logAmt').value);
   if (!amt||amt<=0) { shake('logAmt'); return; }
-
-  const log = [...(weeklyData?.log||[]), {desc, amt, ts:Date.now()}];
-  const spent = parseFloat(((weeklyData?.spent||0)+amt).toFixed(2));
-
-  const { error } = await sb.from('weekly_data').update({ log, spent }).eq('id', weeklyData.id);
+  const log = [...(periodData?.log||[]),{desc,amt,ts:Date.now()}];
+  const spent = parseFloat(((periodData?.spent||0)+amt).toFixed(2));
+  const { error } = await sb.from('weekly_data').update({log,spent}).eq('id',periodData.id);
   if (error) { showToast('Error logging — try again'); return; }
-
-  weeklyData.log = log;
-  weeklyData.spent = spent;
+  periodData.log=log; periodData.spent=spent;
   document.getElementById('logDesc').value='';
   document.getElementById('logAmt').value='';
   showToast('Logged $'+amt.toFixed(2)+' ✓');
@@ -739,79 +883,95 @@ async function logSpend() {
 // ── BILLS TAB ─────────────────────────────────────────────────────────────────
 function renderBillsTab() {
   const p = calcPlan();
-  const now = new Date();
-  const mon = new Date(now); mon.setDate(now.getDate()-((now.getDay()||7)-1));
-  const sun = new Date(mon); sun.setDate(mon.getDate()+6);
-  const fmt = d=>d.toLocaleDateString('en-CA',{month:'short',day:'numeric'});
-  document.getElementById('weekLabel').textContent = fmt(mon)+' – '+fmt(sun);
+  const periodStart = getCurrentPeriodStart(profile.next_payday, profile.freq);
+  const days = getPeriodDays(profile.freq);
+  const periodEndDate = new Date(periodStart+'T00:00:00');
+  periodEndDate.setDate(periodEndDate.getDate()+days-1);
+  document.getElementById('weekLabel').textContent = formatDate(periodStart)+' – '+formatDate(periodEndDate.toISOString().split('T')[0]);
 
-  const sw = Math.round(p.savingsWk);
+  const sw = Math.round(p.savingsPer);
   document.getElementById('savingsDisplayAmt').textContent = '$'+sw;
   const totalSaved = profile?.total_saved_ever||0;
   const goal = profile?.savings_goal||0;
   const pct = goal>0?Math.min(100,(totalSaved/goal)*100):0;
   document.getElementById('savingsProgressFill').style.width=pct+'%';
-  document.getElementById('savingsProgressLabel').textContent = goal>0?'$'+totalSaved.toFixed(0)+' saved of $'+goal+' goal ('+Math.round(pct)+'%)':'$'+totalSaved.toFixed(0)+' saved total';
+  document.getElementById('savingsProgressLabel').textContent = goal>0?'$'+totalSaved.toFixed(0)+' of $'+goal+' goal ('+Math.round(pct)+'%)':'$'+totalSaved.toFixed(0)+' saved total';
   const btn = document.getElementById('savingsBtn');
-  if (weeklyData?.savings_moved) { btn.textContent='✓ Transferred this week'; btn.className='btn-savings done'; }
+  if (periodData?.savings_moved) { btn.textContent='✓ Transferred this period'; btn.className='btn-savings done'; }
   else { btn.textContent=sw>0?'✓ Mark $'+sw+' as transferred':'✓ Mark as transferred'; btn.className='btn-savings'; }
 
   const bd = profile?.fixed_breakdown||{};
   const list = document.getElementById('billsList');
   const activeBills = BILL_DEFS.filter(b=>bd[b.key]>0);
   if (!activeBills.length) { list.innerHTML='<div class="log-empty">No bills set up. Go to Settings to update your numbers.</div>'; return; }
-  const bp = weeklyData?.bills_paid||{};
-  list.innerHTML = activeBills.map(b=>{
-    const paid=bp[b.key];
-    const monthly=bd[b.key];
-    const weekly=(monthly/4.33).toFixed(0);
-    return `<div class="bill-item"><div class="bill-left"><div class="bill-emoji">${b.emoji}</div><div><div class="bill-name">${b.name}</div><div class="bill-amt">$${monthly}/mo · ~$${weekly}/wk</div></div></div><button class="bill-check-btn ${paid?'paid':''}" onclick="toggleBill('${b.key}')">${paid?'✓ Paid':'Mark paid'}</button></div>`;
+  const bp = periodData?.bills_paid||{};
+
+  // For monthly bills: only show once per month
+  // Determine if we're in a new month vs last period
+  const now = new Date();
+  const currentMonth = now.getMonth();
+
+  list.innerHTML = activeBills.map(b => {
+    const paid = bp[b.key];
+    const monthly = bd[b.key];
+    const perPeriod = (monthly/(30/days)).toFixed(0);
+    return `<div class="bill-item">
+      <div class="bill-left">
+        <div class="bill-emoji">${b.emoji}</div>
+        <div>
+          <div class="bill-name">${b.name} <span class="bill-freq-badge monthly">monthly</span></div>
+          <div class="bill-amt">$${monthly}/mo · ~$${perPeriod}/period</div>
+        </div>
+      </div>
+      <button class="bill-check-btn ${paid?'paid':''}" onclick="toggleBill('${b.key}')">${paid?'✓ Paid':'Mark paid'}</button>
+    </div>`;
   }).join('');
 }
 
 async function toggleBill(key) {
-  const bp = {...(weeklyData?.bills_paid||{})};
+  const bp = {...(periodData?.bills_paid||{})};
   bp[key] = !bp[key];
-  const { error } = await sb.from('weekly_data').update({ bills_paid: bp }).eq('id', weeklyData.id);
+  const { error } = await sb.from('weekly_data').update({bills_paid:bp}).eq('id',periodData.id);
   if (error) { showToast('Error — try again'); return; }
-  weeklyData.bills_paid = bp;
+  periodData.bills_paid=bp;
   renderBillsTab();
   showToast(bp[key]?'✓ Marked as paid':'Unmarked');
 }
 
 async function toggleSavings() {
-  if (weeklyData?.savings_moved) return;
+  if (periodData?.savings_moved) return;
   const p = calcPlan();
-  const newTotal = (profile?.total_saved_ever||0) + p.savingsWk;
-  await sb.from('weekly_data').update({ savings_moved: true }).eq('id', weeklyData.id);
-  await sb.from('profiles').update({ total_saved_ever: newTotal }).eq('id', currentUser.id);
-  weeklyData.savings_moved = true;
-  profile.total_saved_ever = newTotal;
+  const newTotal = (profile?.total_saved_ever||0)+p.savingsPer;
+  await sb.from('weekly_data').update({savings_moved:true}).eq('id',periodData.id);
+  await sb.from('profiles').update({total_saved_ever:newTotal}).eq('id',currentUser.id);
+  periodData.savings_moved=true;
+  profile.total_saved_ever=newTotal;
   renderBillsTab();
-  showToast('Savings transferred!');
+  showToast('Savings transferred! 💜');
 }
 
 // ── RECAP ─────────────────────────────────────────────────────────────────────
 function renderRecap(container) {
   const p = calcPlan();
   const safe = Math.round(Math.max(0,p.safeToSpend));
-  const spent = weeklyData?.spent||0;
+  const spent = periodData?.spent||0;
   const onTrack = spent<=safe;
-  const bp = weeklyData?.bills_paid||{};
+  const bp = periodData?.bills_paid||{};
   const activeBills = BILL_DEFS.filter(b=>(profile?.fixed_breakdown||{})[b.key]>0);
   const paidCount = activeBills.filter(b=>bp[b.key]).length;
   let tip='';
-  if (spent===0) tip="You haven't logged any spends yet. Start tracking to get personalised tips.";
-  else if (onTrack&&p.mode==='growth') tip='Great week! You stayed on budget. Make sure to move $'+Math.round(p.savingsWk)+' to savings on Sunday.';
-  else if (onTrack) tip="You're on track. Watch your spending through the weekend — dining out is the most common budget-breaker.";
-  else tip='You went over this week. Next week: try withdrawing your spending budget in cash so you can see what you have left.';
-  container.innerHTML=`<div class="recap-card"><div class="recap-header"><div class="recap-icon">${onTrack?'🎉':'📊'}</div><div><div class="recap-title">${onTrack?'You stayed on track!':'Over budget this week'}</div><div class="recap-sub">Weekly summary</div></div></div><div class="recap-stat"><span>Weekly spending plan</span><strong>$${safe}</strong></div><div class="recap-stat"><span>Total spent</span><strong style="color:${onTrack?'var(--accent)':'var(--red)'}">$${spent.toFixed(2)}</strong></div><div class="recap-stat"><span>Remaining</span><strong>$${Math.max(0,safe-spent).toFixed(2)}</strong></div><div class="recap-stat"><span>Mode</span><strong>${p.mode.charAt(0).toUpperCase()+p.mode.slice(1)}</strong></div><div class="recap-stat"><span>Bills marked paid</span><strong>${paidCount} / ${activeBills.length}</strong></div><div class="recap-stat"><span>Savings moved</span><strong>${weeklyData?.savings_moved?'✓ Yes':'Not yet'}</strong></div><div class="recap-tip"><div class="recap-tip-label">💡 Tip for next week</div><div class="recap-tip-text">${tip}</div></div></div>`;
+  if (spent===0) tip="You haven't logged any spends yet this period. Start tracking to get personalised tips.";
+  else if (onTrack&&p.mode==='growth') tip='Great period! You stayed on budget. Make sure to move $'+Math.round(p.savingsPer)+' to savings before your next payday.';
+  else if (onTrack) tip="You're on track. Watch your spending in the second half of the period — dining out is the most common budget-breaker.";
+  else tip='You went over this period. Next time: try withdrawing your spending budget in cash on payday so you can see what you have left.';
+  container.innerHTML=`<div class="recap-card"><div class="recap-header"><div class="recap-icon">${onTrack?'🎉':'📊'}</div><div><div class="recap-title">${onTrack?'You stayed on track!':'Over budget this period'}</div><div class="recap-sub">Pay period summary</div></div></div><div class="recap-stat"><span>Spending plan</span><strong>$${safe}</strong></div><div class="recap-stat"><span>Total spent</span><strong style="color:${onTrack?'var(--accent)':'var(--red)'}">$${spent.toFixed(2)}</strong></div><div class="recap-stat"><span>Remaining</span><strong>$${Math.max(0,safe-spent).toFixed(2)}</strong></div><div class="recap-stat"><span>Mode</span><strong>${p.mode.charAt(0).toUpperCase()+p.mode.slice(1)}</strong></div><div class="recap-stat"><span>Bills marked paid</span><strong>${paidCount} / ${activeBills.length}</strong></div><div class="recap-stat"><span>Savings moved</span><strong>${periodData?.savings_moved?'✓ Yes':'Not yet'}</strong></div><div class="recap-tip"><div class="recap-tip-label">💡 Tip for next period</div><div class="recap-tip-text">${tip}</div></div></div>`;
 }
 
 // ── SETTINGS ─────────────────────────────────────────────────────────────────
 function renderSettings(container) {
   const p = calcPlan();
-  container.innerHTML=`<div class="recap-card" style="margin-top:20px"><div class="log-title" style="margin-bottom:16px">Your Current Budget</div><div class="recap-stat"><span>Weekly income</span><strong>$${Math.round(p.weeklyInc)}</strong></div><div class="recap-stat"><span>Fixed costs / week</span><strong>$${Math.round(p.fixedWeek)}</strong></div><div class="recap-stat"><span>Savings / week</span><strong>$${Math.round(p.savingsWk)}</strong></div><div class="recap-stat"><span>Safe to spend</span><strong style="color:var(--accent)">$${Math.round(Math.max(0,p.safeToSpend))}</strong></div><div class="recap-stat"><span>Total saved (all time)</span><strong style="color:var(--purple)">$${(profile?.total_saved_ever||0).toFixed(0)}</strong></div></div><div class="recap-card" style="margin-top:12px"><div class="log-title" style="margin-bottom:4px">Update your numbers</div><div class="log-sub" style="margin-bottom:16px">Changed jobs or moved? Update below.</div><div class="field-group"><label class="field-label">Pay amount</label><div class="input-prefix"><span>$</span><input type="number" id="setIncome" value="${profile?.income||0}" min="0"></div></div><div class="field-group"><label class="field-label">Pay frequency</label><div class="freq-options"><div class="freq-btn ${profile?.freq==='weekly'?'selected':''}" onclick="setFreqSetting('weekly',this)">Weekly</div><div class="freq-btn ${profile?.freq==='biweekly'?'selected':''}" onclick="setFreqSetting('biweekly',this)">Bi-weekly</div><div class="freq-btn ${profile?.freq==='monthly'?'selected':''}" onclick="setFreqSetting('monthly',this)">Monthly</div></div></div><div class="field-group"><label class="field-label">Weekly savings target</label><div class="input-prefix"><span>$</span><input type="number" id="setSavings" value="${profile?.savings||0}" min="0"></div></div><div class="field-group"><label class="field-label">Savings goal amount</label><div class="input-prefix"><span>$</span><input type="number" id="setSavingsGoal" value="${profile?.savings_goal||0}" min="0"></div></div><button class="btn-primary" onclick="saveSettings()" style="margin-top:4px">Save changes</button><button class="btn-secondary" style="margin-top:8px;color:var(--red)" onclick="confirmReset()">Reset budget setup</button></div>`;
+  const nextPay = getNextPayday(profile.next_payday, profile.freq);
+  container.innerHTML=`<div class="recap-card" style="margin-top:20px"><div class="log-title" style="margin-bottom:16px">Your Current Plan</div><div class="recap-stat"><span>Next payday</span><strong>${formatDate(nextPay)}</strong></div><div class="recap-stat"><span>Pay frequency</span><strong>${profile.freq}</strong></div><div class="recap-stat"><span>Typical income</span><strong>$${profile.income}</strong></div><div class="recap-stat"><span>Fixed costs / period</span><strong>$${Math.round(p.fixedPer)}</strong></div><div class="recap-stat"><span>Savings / period</span><strong>$${Math.round(p.savingsPer)}</strong></div><div class="recap-stat"><span>Total saved (all time)</span><strong style="color:var(--purple)">$${(profile?.total_saved_ever||0).toFixed(0)}</strong></div></div><div class="recap-card" style="margin-top:12px"><div class="log-title" style="margin-bottom:4px">Update your numbers</div><div class="log-sub" style="margin-bottom:16px">Changed jobs or moved? Update below.</div><div class="field-group"><label class="field-label">Typical pay amount</label><div class="input-prefix"><span>$</span><input type="number" id="setIncome" value="${profile?.income||0}" min="0"></div></div><div class="field-group"><label class="field-label">Pay frequency</label><div class="freq-options"><div class="freq-btn ${profile?.freq==='weekly'?'selected':''}" onclick="setFreqSetting('weekly',this)">Weekly</div><div class="freq-btn ${profile?.freq==='biweekly'?'selected':''}" onclick="setFreqSetting('biweekly',this)">Bi-weekly</div><div class="freq-btn ${profile?.freq==='monthly'?'selected':''}" onclick="setFreqSetting('monthly',this)">Monthly</div></div></div><div class="field-group"><label class="field-label">Next payday date</label><input type="date" id="setPayday" value="${nextPay}"></div><div class="field-group"><label class="field-label">Savings per period</label><div class="input-prefix"><span>$</span><input type="number" id="setSavings" value="${profile?.savings||0}" min="0"></div></div><div class="field-group"><label class="field-label">Savings goal</label><div class="input-prefix"><span>$</span><input type="number" id="setSavingsGoal" value="${profile?.savings_goal||0}" min="0"></div></div><button class="btn-primary" onclick="saveSettings()" style="margin-top:4px">Save changes</button><button class="btn-secondary" style="margin-top:8px;color:var(--red)" onclick="confirmReset()">Reset budget setup</button></div>`;
 }
 
 function setFreqSetting(f,el) {
@@ -825,9 +985,10 @@ async function saveSettings() {
   const savings = parseFloat(document.getElementById('setSavings').value)||0;
   const savingsGoal = parseFloat(document.getElementById('setSavingsGoal').value)||0;
   const freq = settingFreq||profile.freq;
-  const { error } = await sb.from('profiles').update({ income, savings, savings_goal:savingsGoal, freq }).eq('id', currentUser.id);
+  const nextPayday = document.getElementById('setPayday').value||profile.next_payday;
+  const { error } = await sb.from('profiles').update({income,savings,savings_goal:savingsGoal,freq,next_payday:nextPayday}).eq('id',currentUser.id);
   if (error) { showToast('Error saving — try again'); return; }
-  profile = {...profile, income, savings, savings_goal:savingsGoal, freq};
+  profile={...profile,income,savings,savings_goal:savingsGoal,freq,next_payday:nextPayday};
   showToast('Budget updated ✓');
   showTab('settings');
 }
@@ -840,20 +1001,15 @@ function showTab(tab) {
   inj.innerHTML=''; inj.style.display='none';
   ['home','log','bills','recap','settings'].forEach(t=>document.getElementById('bnav-'+t)?.classList.toggle('active',t===tab));
 
-  if (tab==='home') {
-    document.getElementById('dashContent').style.display='block';
-    renderDash();
-  } else if (tab==='log') {
-    document.getElementById('dashContent').style.display='block';
-    renderDash();
+  if (tab==='home') { document.getElementById('dashContent').style.display='block'; renderDash(); }
+  else if (tab==='log') {
+    document.getElementById('dashContent').style.display='block'; renderDash();
     setTimeout(()=>document.querySelector('.log-wrap')?.scrollIntoView({behavior:'smooth',block:'start'}),100);
-  } else if (tab==='bills') {
-    document.getElementById('billsContent').style.display='block';
-    renderBillsTab();
-  } else {
+  } else if (tab==='bills') { document.getElementById('billsContent').style.display='block'; renderBillsTab(); }
+  else {
     inj.style.display='block';
     inj.style.cssText='display:block;max-width:480px;margin:0 auto;padding:20px 16px 90px;';
-    const titles={recap:['Your week at a glance','Weekly Recap'],settings:['Manage your plan','Settings']};
+    const titles={recap:['Your period at a glance','Period Recap'],settings:['Manage your plan','Settings']};
     inj.innerHTML=`<div class="greeting">${titles[tab][0]}</div><div class="dash-name">${titles[tab][1]}</div><div id="zoneInner"></div>`;
     const inner=document.getElementById('zoneInner');
     if (tab==='recap') renderRecap(inner);
@@ -865,14 +1021,13 @@ function showTab(tab) {
 function confirmReset() { document.getElementById('resetModal').classList.add('open'); }
 function closeModal() { document.getElementById('resetModal').classList.remove('open'); }
 async function doReset() {
-  await sb.from('profiles').update({ name:null, income:0, rent:0, bills:0, savings:0, savings_goal:0, fixed_breakdown:{}, total_saved_ever:0 }).eq('id', currentUser.id);
-  await sb.from('weekly_data').delete().eq('user_id', currentUser.id);
-  profile=null; weeklyData=null;
+  await sb.from('profiles').update({name:null,income:0,rent:0,bills:0,savings:0,savings_goal:0,fixed_breakdown:{},total_saved_ever:0,next_payday:null}).eq('id',currentUser.id);
+  await sb.from('weekly_data').delete().eq('user_id',currentUser.id);
+  profile=null; periodData=null;
   closeModal();
   showScreen('screenOnboard');
 }
 
-// ── UTILS ─────────────────────────────────────────────────────────────────────
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -884,7 +1039,7 @@ function showToast(msg) {
 }
 function shake(id) {
   const el=document.getElementById(id);
-  if (!el) return;
+  if(!el) return;
   el.style.borderColor='var(--red)';
   setTimeout(()=>el.style.borderColor='',1000);
 }
