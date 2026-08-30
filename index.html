@@ -1088,23 +1088,48 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// Capture install prompt
+// Detect platform
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isAndroid = /android/i.test(navigator.userAgent);
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+const isMobile = isIOS || isAndroid;
+
+// Capture Android install prompt
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
-  // Show banner after 3 seconds if not already installed
-  setTimeout(() => {
-    if (!window.matchMedia('(display-mode: standalone)').matches) {
-      document.getElementById('installBanner').style.display = 'flex';
-    }
-  }, 3000);
+});
+
+// Show install banner for mobile users after 4 seconds
+window.addEventListener('load', () => {
+  if (isMobile && !isStandalone && !localStorage.getItem('fw_install_dismissed')) {
+    setTimeout(() => {
+      const banner = document.getElementById('installBanner');
+      if (isIOS) {
+        document.getElementById('installTitle').textContent = 'Add Flowwise to your home screen';
+        document.getElementById('installSub').textContent = 'Tap Share ⬆️ then "Add to Home Screen"';
+        document.getElementById('installBtn').textContent = 'How?';
+      }
+      banner.style.display = 'flex';
+    }, 4000);
+  }
 });
 
 function installPWA() {
-  if (!deferredPrompt) return;
+  if (isIOS) {
+    // Show iOS instructions modal
+    document.getElementById('iosModal').classList.add('open');
+    return;
+  }
+  if (!deferredPrompt) {
+    // Fallback for Android if no prompt captured
+    showToast('Tap browser menu → Add to Home Screen');
+    dismissInstall();
+    return;
+  }
   deferredPrompt.prompt();
   deferredPrompt.userChoice.then(choice => {
-    if (choice.outcome === 'accepted') showToast('Flowwise added to home screen!');
+    if (choice.outcome === 'accepted') showToast('Flowwise added to home screen! 🎉');
     deferredPrompt = null;
     dismissInstall();
   });
@@ -1178,11 +1203,36 @@ function maybeShowNotifPrompt() {
 <!-- PWA INSTALL BANNER -->
 <div class="install-banner" id="installBanner" style="display:none">
   <div class="install-banner-text">
-    <div class="install-banner-title">Add Flowwise to your home screen</div>
-    <div class="install-banner-sub">Works like a real app, no App Store needed</div>
+    <div class="install-banner-title" id="installTitle">Add Flowwise to your home screen</div>
+    <div class="install-banner-sub" id="installSub">Works like a real app, no App Store needed</div>
   </div>
-  <button class="install-banner-btn" onclick="installPWA()">Install</button>
+  <button class="install-banner-btn" id="installBtn" onclick="installPWA()">Install</button>
   <button class="install-banner-close" onclick="dismissInstall()">✕</button>
+</div>
+
+<!-- iOS INSTRUCTIONS MODAL -->
+<div class="modal-overlay" id="iosModal">
+  <div class="modal">
+    <div class="modal-title">Add to Home Screen</div>
+    <div class="modal-sub">
+      <div style="margin-bottom:12px">Follow these steps in Safari:</div>
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px">
+        <div style="font-size:22px;flex-shrink:0">1️⃣</div>
+        <div>Tap the <strong>Share button</strong> <span style="font-size:16px">⬆️</span> at the bottom of your screen</div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px">
+        <div style="font-size:22px;flex-shrink:0">2️⃣</div>
+        <div>Scroll down and tap <strong>"Add to Home Screen"</strong></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="font-size:22px;flex-shrink:0">3️⃣</div>
+        <div>Tap <strong>Add</strong> — Flowwise will appear on your home screen like a real app!</div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" style="margin-top:0" onclick="document.getElementById('iosModal').classList.remove('open');dismissInstall();">Got it!</button>
+    </div>
+  </div>
 </div>
 </body>
 </html>
